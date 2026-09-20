@@ -1,0 +1,1428 @@
+﻿<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>שיחון ערבית</title>
+<meta name="description" content="לומדים ערבית מדוברת בתעתיק עברי — בונים משפטים מהמאגר ושולחים בוואטסאפ">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#16a34a">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="שיחון ערבית">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff;
+    --surface:#ffffff;
+    --surface-alt:#f6f5f1;
+    --border:#dfddd5;
+    --border-strong:#c9c6bb;
+    --text:#15140f;
+    --text-muted:#726f63;
+    --accent:#16a34a;
+    --accent-bg:#e8f8ee;
+    --accent-strong:#0e7a37;
+    --danger:#c23b3b;
+    --danger-bg:#fbe9e9;
+    --blue:#2563eb;
+    --yellow:#d69e0a;
+    --shadow: 0 1px 2px rgba(20,20,10,.06);
+    font-family: 'Heebo', system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0a0a08;
+      --surface:#141310;
+      --surface-alt:#1c1b17;
+      --border:#34322a;
+      --border-strong:#4a473c;
+      --text:#f4f3ee;
+      --text-muted:#9c988c;
+      --accent:#22c55e;
+      --accent-bg:rgba(34,197,94,.14);
+      --accent-strong:#4ade80;
+      --danger:#e56868;
+      --danger-bg:rgba(226,80,80,.14);
+      --blue:#5b93f5;
+      --yellow:#e8b13a;
+      --shadow: 0 1px 2px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0a0a08;
+    --surface:#141310;
+    --surface-alt:#1c1b17;
+    --border:#34322a;
+    --border-strong:#4a473c;
+    --text:#f4f3ee;
+    --text-muted:#9c988c;
+    --accent:#22c55e;
+    --accent-bg:rgba(34,197,94,.14);
+    --accent-strong:#4ade80;
+    --danger:#e56868;
+    --danger-bg:rgba(226,80,80,.14);
+    --blue:#5b93f5;
+    --yellow:#e8b13a;
+    --shadow: 0 1px 2px rgba(0,0,0,.4);
+  }
+  *{box-sizing:border-box;}
+  [hidden]{ display:none !important; }
+  html{ height:100%; touch-action:manipulation; -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+  body{
+    height:100%;
+    min-height:100vh;
+    min-height:100dvh;
+    background:var(--bg); color:var(--text);
+    touch-action:manipulation;
+    overscroll-behavior-y:contain;
+    -webkit-tap-highlight-color:transparent;
+  }
+  #app{
+    max-width:520px;
+    margin:0 auto;
+    min-height:100%;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+    background:var(--bg);
+    overflow-x:hidden;
+  }
+  header{
+    position:sticky;
+    top:env(safe-area-inset-top,0px);
+    z-index:5;
+    background:var(--bg);
+    border-bottom:1px solid var(--border);
+    padding:14px 16px 10px;
+  }
+  .title-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+  }
+  h1{
+    font-size:1.3rem;
+    font-weight:800;
+    margin:0;
+    letter-spacing:.2px;
+  }
+  .unit-tabs{
+    display:flex;
+    gap:9px;
+    margin-top:12px;
+    overflow-x:auto;
+  }
+  .unit-tab{
+    flex:0 0 auto;
+    border:1.5px solid var(--border);
+    background:var(--surface-alt);
+    color:var(--text-muted);
+    border-radius:11px;
+    padding:9px 15px;
+    font-family:inherit;
+    font-size:.92rem;
+    font-weight:600;
+    cursor:pointer;
+    white-space:nowrap;
+    touch-action:manipulation;
+  }
+  .unit-tab.active{
+    border-color:var(--text);
+    color:var(--text);
+    background:var(--surface);
+  }
+  .lamp-btn{
+    flex:0 0 auto;
+    width:44px;
+    height:44px;
+    border-radius:12px;
+    border:none;
+    background:var(--text);
+    color:var(--bg);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    padding:0;
+    touch-action:manipulation;
+    box-shadow:0 3px 10px rgba(0,0,0,.22);
+  }
+  .lamp-btn:active{ transform:scale(.93); }
+  .lamp-btn svg{ width:22px; height:22px; }
+  .header-actions{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  main{
+    flex:1;
+    padding:20px 18px 24px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .log{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    padding-bottom:4px;
+  }
+  .bubble-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .bubble-num{
+    flex:0 0 auto;
+    width:20px;
+    text-align:center;
+    font-size:.7rem;
+    font-weight:700;
+    color:var(--text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .bubble-content{
+    flex:1;
+    background:var(--surface-alt);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:8px 12px;
+  }
+  .bubble-text{
+    font-size:1.02rem;
+    font-weight:600;
+    line-height:1.4;
+  }
+  .bubble-translation{
+    font-size:.72rem;
+    color:var(--text-muted);
+    margin-top:2px;
+  }
+  .challenge{
+    border:1.5px solid var(--border-strong);
+    border-radius:18px;
+    padding:18px;
+    background:var(--surface);
+    box-shadow:var(--shadow);
+  }
+  .challenge-head{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:10px;
+  }
+  .challenge-label{
+    font-size:.78rem;
+    color:var(--text-muted);
+    font-weight:600;
+  }
+  .slot{
+    min-height:64px;
+    border:2px dashed var(--border-strong);
+    border-radius:14px;
+    padding:10px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    align-items:center;
+    transition:border-color .2s, background .2s;
+  }
+  .slot.correct{
+    border-style:solid;
+    border-color:var(--accent);
+    background:var(--accent-bg);
+    animation:glow .7s ease;
+  }
+  @keyframes glow{
+    0%{ box-shadow:0 0 0 0 rgba(22,163,74,0); }
+    30%{ box-shadow:0 0 0 8px rgba(22,163,74,.18); }
+    100%{ box-shadow:0 0 0 0 rgba(22,163,74,0); }
+  }
+  .copy-row{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    margin-top:14px;
+  }
+  .action-fab{
+    position:relative;
+    overflow:hidden;
+    width:56px;
+    height:56px;
+    border-radius:50%;
+    border:none;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    touch-action:manipulation;
+    animation:popIn .5s cubic-bezier(.34,1.56,.64,1);
+  }
+  .action-fab:active{ transform:scale(.93); }
+  .action-fab::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(120deg, transparent 35%, rgba(255,255,255,.65) 50%, transparent 65%);
+    transform:translateX(-120%);
+    animation:shine 1s ease .2s 1;
+  }
+  .action-fab.translate{
+    background:var(--blue);
+    box-shadow:0 6px 16px rgba(37,99,235,.35);
+  }
+  .action-fab.send{
+    background:var(--accent);
+    box-shadow:0 6px 16px rgba(22,163,74,.35);
+  }
+  .action-fab.copy{
+    background:var(--yellow);
+    box-shadow:0 6px 16px rgba(214,158,10,.35);
+  }
+  @keyframes popIn{
+    0%{ transform:scale(0); opacity:0; }
+    55%{ transform:scale(1.18); opacity:1; }
+    75%{ transform:scale(.94); }
+    100%{ transform:scale(1); }
+  }
+  @keyframes shine{
+    to{ transform:translateX(120%); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .slot.correct{ animation:none; }
+    .action-fab{ animation:none; }
+    .action-fab::after{ animation:none; display:none; }
+  }
+  .slot-placeholder{
+    color:var(--text-muted);
+    font-size:.95rem;
+    padding:6px 4px;
+  }
+  .tile{
+    font-family:inherit;
+    font-size:1.18rem;
+    font-weight:700;
+    padding:11px 17px;
+    border-radius:12px;
+    border:1.5px solid var(--border-strong);
+    background:var(--surface);
+    color:var(--text);
+    cursor:pointer;
+    user-select:none;
+    -webkit-user-select:none;
+    touch-action:manipulation;
+    transition:transform .1s, opacity .15s;
+  }
+  .tile:active{ transform:scale(.95); }
+  .tile.placed{
+    background:var(--text);
+    color:var(--bg);
+    border-color:var(--text);
+  }
+  .tile.drag-source{
+    opacity:.35;
+  }
+  .tile-ghost{
+    position:fixed;
+    pointer-events:none;
+    z-index:999;
+    box-shadow:0 8px 20px rgba(0,0,0,.25);
+    transform:scale(1.06) rotate(-2deg);
+    transition:none;
+  }
+  .tile.used-hidden{
+    display:none;
+  }
+  .bank{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:14px;
+    border-radius:12px;
+    transition:background .15s, box-shadow .15s;
+  }
+  .bank.disabled .tile{
+    opacity:.35;
+    pointer-events:none;
+  }
+  .bank.drag-over{
+    background:var(--surface-alt);
+    box-shadow:inset 0 0 0 2px var(--border-strong);
+  }
+  .slot.drag-over{
+    border-color:var(--text);
+    background:var(--surface-alt);
+  }
+  .clear-btn{
+    background:none;
+    border:none;
+    color:var(--text-muted);
+    font-family:inherit;
+    font-size:.75rem;
+    text-decoration:underline;
+    cursor:pointer;
+    margin-inline-start:auto;
+  }
+  .translation-box{
+    margin-top:10px;
+    font-size:.88rem;
+    color:var(--text-muted);
+    border-top:1px dashed var(--border);
+    padding-top:8px;
+  }
+  .actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:12px;
+  }
+  .btn{
+    flex:1 1 auto;
+    font-family:inherit;
+    font-size:.88rem;
+    font-weight:700;
+    padding:10px 12px;
+    border-radius:10px;
+    border:1.5px solid var(--text);
+    background:var(--bg);
+    color:var(--text);
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .btn.primary{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#fff;
+  }
+  .btn.ghost{
+    border-color:var(--border-strong);
+    color:var(--text-muted);
+  }
+  .toast{
+    position:fixed;
+    bottom:calc(20px + env(safe-area-inset-bottom,0px));
+    left:50%;
+    transform:translateX(-50%) translateY(0);
+    background:var(--text);
+    color:var(--bg);
+    padding:9px 18px;
+    border-radius:20px;
+    font-size:.85rem;
+    font-weight:600;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .2s, transform .2s;
+    z-index:20;
+  }
+  .toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(-6px);
+  }
+  .tooltip{
+    position:fixed;
+    background:var(--text);
+    color:var(--bg);
+    padding:6px 10px;
+    border-radius:8px;
+    font-size:.8rem;
+    font-weight:600;
+    z-index:30;
+    max-width:220px;
+    text-align:center;
+    pointer-events:none;
+    opacity:0;
+    transition:opacity .12s;
+  }
+  .tooltip.show{ opacity:1; }
+  .done-card{
+    text-align:center;
+    padding:30px 16px;
+    border:1.5px solid var(--accent);
+    border-radius:16px;
+    background:var(--accent-bg);
+  }
+  .done-card h2{
+    margin:0 0 6px;
+    font-size:1.2rem;
+  }
+  .done-card p{
+    margin:0 0 14px;
+    color:var(--text-muted);
+    font-size:.9rem;
+  }
+  .soon-card{
+    text-align:center;
+    padding:30px 16px;
+    border:1.5px dashed var(--border-strong);
+    border-radius:16px;
+    color:var(--text-muted);
+    font-size:.9rem;
+  }
+  .modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(10,10,8,.55);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px));
+    z-index:50;
+  }
+  .modal-box{
+    background:var(--surface);
+    border:1.5px solid var(--border-strong);
+    border-radius:16px;
+    padding:16px;
+    width:100%;
+    max-width:460px;
+    max-height:78vh;
+    overflow-y:auto;
+  }
+  .modal-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:10px;
+  }
+  .modal-title{
+    font-size:1.02rem;
+    font-weight:800;
+  }
+  .modal-close{
+    background:none;
+    border:none;
+    font-size:1.4rem;
+    line-height:1;
+    color:var(--text-muted);
+    cursor:pointer;
+    padding:2px 6px;
+  }
+  .modal-num{
+    color:var(--text-muted);
+  }
+  footer{
+    padding:10px 16px calc(14px + env(safe-area-inset-bottom,0px));
+    text-align:center;
+    font-size:.7rem;
+    color:var(--text-muted);
+  }
+  .hint{
+    font-size:.75rem;
+    color:var(--text-muted);
+    margin-top:8px;
+    text-align:center;
+  }
+</style>
+</head>
+<body>
+<div id="app" dir="rtl" lang="he">
+  <header>
+    <div class="title-row">
+      <h1>שיחון ערבית מדוברת</h1>
+      <div class="header-actions">
+        <button class="lamp-btn" id="hintBtn" type="button" aria-label="הצג את כל השיחה" title="הצג את כל השיחה">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 1.1 1 1.9v.2h5v-.2c0-.8.4-1.5 1-1.9A6 6 0 0 0 12 3Z"/></svg>
+        </button>
+        <button class="lamp-btn" id="resetBtn" type="button" aria-label="איפוס המשפט הנוכחי" title="איפוס המשפט הנוכחי">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 2.6-6.35"/><path d="M3 4v5h5"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="unit-tabs" id="unitTabs"></div>
+  </header>
+  <main id="main"></main>
+  <footer>לחיצה ארוכה על מילה מציגה את הפירוש בעברית</footer>
+</div>
+<div class="toast" id="toast"></div>
+<div class="tooltip" id="tooltip"></div>
+<div class="modal-overlay" id="hintOverlay" hidden>
+  <div class="modal-box" id="hintBox" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <div class="modal-title">כל השיחה</div>
+      <button class="modal-close" id="hintClose" type="button" aria-label="סגירה">✕</button>
+    </div>
+    <div id="hintList"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  // ---------- Data ----------
+  // words are written with niqqud to guide pronunciation of the Arabic transliteration
+  var DICTIONARY = {
+    "מַרְחַבַּא":"שלום (ברכה כללית)",
+    "אַהְלַן":"היי / ברוך הבא",
+    "כִּיפַכ":"מה שלומך? (לגבר)",
+    "מְנִיח":"טוב",
+    "אֶלְחַמְדִלְלָה":"תודה לאל",
+    "וַ":"ו-",
+    "אִנְתָּה":"אתה",
+    "כַּמָאן":"גם",
+    "שׁוּ":"מה",
+    "אִסְמַכ":"השם שלך (לגבר)",
+    "אִסְמִי":"השם שלי",
+    "תְּשַׁרַפְנָא":"נעים מאוד (התכבדנו)",
+    "מִין":"מ- / ממי",
+    "וַיְן":"איפה",
+    "אַנָא":"אני",
+    "מִן":"מ- (צורה מקוצרת של \"מִין\")",
+    "הוֹן":"כאן",
+    "יַאלְלָה":"קדימה / יאללה",
+    "בְּשׁוּפַכ":"אראה אותך (לגבר)",
+    "בַּעְדֵין":"אחר כך",
+    "מַסְלַמֶה":"שלום, לך בשלום (פרידה)",
+    "גַ'עָאן":"רעב",
+    "אַיְוַה":"כן",
+    "כְּתִיר":"מאוד / הרבה",
+    "בִּדַּכ":"אתה רוצה (לגבר)",
+    "תָאכֹל":"תאכל / לאכול",
+    "תְרוּח":"תלך",
+    "עַל":"אל / ל-",
+    "מַטְעַם":"מסעדה",
+    "בִּדִּי":"אני רוצה",
+    "מַנְסַף":"מנסף (מנה עם אורז ובשר ורוטב יוגורט)",
+    "טַיֶּב":"טוב / בסדר",
+    "נְרוּח":"בוא נלך",
+    "סַחְתֵין":"לתיאבון! (איחול בזמן אכילה)",
+    "אַללָה":"אלוהים",
+    "יְסַלֶּמַכ":"ישמור עליך (חלק מביטוי תודה)",
+    "הַלַּק":"עכשיו",
+    "בִּלְבֵּית":"בבית",
+    "תַעָאל":"בוא! (לגבר)",
+    "מַכְתַּב":"משרד",
+    "גַ'ָאי":"בא / בדרך",
+    "קַדֵּישׁ":"כמה",
+    "וַקֶת":"זמן",
+    "רֻבְּע":"רבע",
+    "סָאעָה":"שעה",
+    "תַמָאם":"מעולה / בסדר גמור",
+    "בַּסְתַנַּכ":"אני מחכה לך (לגבר)",
+    "יַעְטִיכ":"נותן לך (חלק מביטוי תודה/הערכה)",
+    "אַלְעָאפְיֶה":"הבריאות / הכוח",
+    "יְעָאפִיכ":"ייתן לך בריאות (תשובה לביטוי תודה)",
+
+    "יָא":"הו! (מילת פנייה לפני שם)",
+    "וָלִיד":"וואליד (שם דמות)",
+    "סָעִיד":"סעיד (שם דמות)",
+
+    "תַעְבָּאן":"עייף",
+    "לַא":"לא",
+    "בְּתַעְרַף":"אתה יודע (לגבר)",
+    "תְסוּק":"אתה נוהג (לגבר)",
+    "מֻמְכִּן":"אפשר",
+    "תְוַצֶּלְנִי":"אתה מסיע אותי (לגבר)",
+    "בֵּית":"בית",
+    "טַבְּעַן":"כמובן",
+    "אִרְכַּב":"עלה! (לרכב, לגבר)",
+    "רַאיֶח":"הולך / בדרך",
+    "שֻעְ'ל":"עבודה",
+    "מַעַכ":"איתך",
+    "יִסְלַמוּ":"תודה (מילולית: שידיך יהיו בריאות)",
+
+    "אַחְמַד":"אחמד (שם)",
+    "הוּ":"הוא",
+    "מִש":"לא (שולל תואר או שם עצם)",
+    "הִיֶּה":"היא",
+    "סָארָה":"שרה (שם)",
+    "תַעְבָּאנֶה":"עייפה",
+    "בַּס":"אבל / רק",
+    "מְנִיחָה":"טובה",
+    "יִשְפִיהָא":"שירפא אותה",
+    "רַח":"מילת עתיד (\"אֶ-\" / \"ת-\" / \"י-\")",
+    "קֻלְּהָא":"תגיד לה",
+
+    "אַלוְלַאד":"הילדים / הבנים",
+    "הֹם":"הם",
+    "בַּרַּא":"בחוץ",
+    "בִּלְעַבּוּ":"הם משחקים",
+    "אַלְבַּנַאת":"הבנות",
+    "הֶנֶּה":"הן",
+    "בִּיעְמַלוּ":"הם / הן עושים",
+    "בִּתְפַרְּג'וּ":"הן צופות",
+    "תֶלֶפִזְיוֹן":"טלוויזיה",
+    "אַלְאַכְּל":"האוכל",
+    "נַאדִי":"תקרא! (לגבר)",
+    "עַלֵיהֹם":"להם / עליהם",
+
+    "אַלְסוּק":"השוק",
+    "גִ'יבּ":"תביא! (לגבר)",
+    "לִי":"לי",
+    "אַרְבַּעְטַעְש":"ארבע עשרה",
+    "תֻפַּאחָה":"תפוח",
+    "שִי":"משהו",
+    "מִיֶּה":"מאה",
+    "גְ'רָאם":"גרם",
+    "גְ'בְּנֶה":"גבינה",
+    "הֵיכּ":"ככה / כזה",
+    "כִּילוֹ":"קילו",
+    "בַּנְדוּרָה":"עגבנייה",
+
+    "רַאְיַכ":"דעתך (לגבר)",
+    "לוֹן":"צבע",
+    "אַלְסַיָּארָה":"המכונית",
+    "חַאבּ":"אוהב (לגבר)",
+    "אַלְאַזְרַק":"הכחול",
+    "אַלְאַחְמַר":"האדום",
+    "אַחְלָא":"יותר יפה",
+    "אַלְאַבְּיַצ":"הלבן",
+    "חִלוּ":"יפה / נחמד",
+    "מְנִשְׁתְּרִיהָא":"נקנה אותה",
+    "קַרָאר":"החלטה",
+
+    "כַּנְת":"היית / הייתי",
+    "מְבַּארֶח":"אתמול",
+    "בַּלְשֻעְ'ל":"בעבודה",
+    "בֻּכְּרַא":"מחר",
+    "תַעְמַל":"תעשה (לגבר)",
+    "רוּח":"אלך / לך! (לגבר)",
+    "אַלְבַּחְר":"הים",
+    "זַמַאן":"המון זמן",
+    "מַא":"לא (שלילה של פועל בעבר)",
+    "רֻחְת":"הלכתי",
+    "מַעִי":"איתי",
+    "כַּם":"כמה",
+    "עַשְׁרָה":"עשר",
+    "אַלְסָאעָה":"השעה",
+
+    "מִפְתָאח":"מפתח",
+    "עָארֶפ":"יודע (לגבר)",
+    "תִגִ'י":"אתה בא (לגבר)",
+    "בֵּיתִי":"הבית שלי",
+    "אִגִ'י":"אני אבוא",
+    "בַּעְד":"בעוד / אחרי",
+    "שְׁוַי":"קצת",
+
+    "תְלָאתֶה":"שלוש",
+    "עֶשְׂרִין":"עשרים",
+    "מוֹזֶה":"בננה",
+    "הַאד":"זה / ההוא",
+    "הַהַה":"האה האה (צחוק)",
+    "עִנִּי":"יש לי",
+    "צִיּוּף":"אורחים",
+
+    "אַלְאַחְ'צַר":"הירוק",
+    "יַעְנִי":"כלומר / זאת אומרת",
+    "אַלְאַסְוַד":"השחור",
+    "תָאנִי":"אחר / עוד (פעם נוספת)",
+
+    "אַי":"איזה / איזו",
+    "אַלְבֻּרְתֻקָאלִי":"הכתום",
+    "אַלְוַרְדִי":"הוורוד",
+    "אַלְבֻּנִּי":"החום",
+
+    "עִנְדַכ":"יש לך (לגבר)",
+    "קִטָּה":"חתולה",
+    "כֶּלְבּ":"כלב",
+    "אִסְמֹה":"השם שלו",
+    "סֻלְטָאן":"סולטאן (שם לכלב)",
+    "בִּיֶּלְעַב":"הוא משחק",
+    "דַאיְמַן":"תמיד",
+
+    "תִסְמַע":"אתה שומע (לגבר)",
+    "נֻכְּתֶה":"בדיחה",
+    "מַצְחִכֶּה":"מצחיקה",
+    "לֵישׁ":"למה",
+    "אִשְׁתְּרָא":"הוא קנה",
+    "לַאנֹּה":"כי / בגלל שהוא",
+    "אַכְּתַר":"יותר",
+
+    "חַזִינֶה":"עצובה",
+    "לַאקְיֶה":"מוצאת",
+    "כַּלְבְּהָא":"הכלב שלה",
+    "חִלְוֶה":"נחמדה (לנקבה)",
+
+    "אַחִ'יר":"אחרון",
+    "כְּבִּירֶה":"גדולה"
+  };
+
+  // כל הדיאלוגים הם בין אותן שתי דמויות קבועות: סָעִיד ו-וָלִיד
+  var UNITS = [
+    {
+      id:1,
+      name:"דיאלוג 1 · שיחת פתיחה",
+      turns:[
+        {target:["מַרְחַבַּא"], translation:"שלום (סעיד פותח בברכה למישהו שהוא עדיין לא מכיר)"},
+        {target:["אַהְלַן"], translation:"היי / ברוך הבא (וואליד עונה)"},
+        {target:["כִּיפַכ"], translation:"מה שלומך?"},
+        {target:["מְנִיח","אֶלְחַמְדִלְלָה","וַ","אִנְתָּה"], translation:"טוב, תודה לאל. ואתה?"},
+        {target:["מְנִיח","כַּמָאן"], translation:"גם טוב"},
+        {target:["שׁוּ","אִסְמַכ"], translation:"מה השם שלך?"},
+        {target:["אִסְמִי","סָעִיד"], translation:"השם שלי סעיד"},
+        {target:["תְּשַׁרַפְנָא"], translation:"נעים מאוד"},
+        {target:["וַ","אִנְתָּה","שׁוּ","אִסְמַכ"], translation:"ואתה, מה השם שלך?"},
+        {target:["אִסְמִי","וָלִיד"], translation:"השם שלי וואליד"},
+        {target:["מִין","וַיְן","אִנְתָּה"], translation:"מאיפה אתה?"},
+        {target:["אַנָא","מִן","הוֹן"], translation:"אני מכאן"},
+        {target:["יַאלְלָה","בְּשׁוּפַכ","יָא","סָעִיד","בַּעְדֵין"], translation:"יאללה, נתראה אחר כך, סעיד (עכשיו כשכבר מכירים בשם אפשר להשתמש ב\"יא\" + שם)"},
+        {target:["מַסְלַמֶה","יָא","וָלִיד"], translation:"להתראות, וואליד"}
+      ]
+    },
+    {
+      id:2,
+      name:"דיאלוג 2 · גוף שני",
+      turns:[
+        {target:["אִנְתָּה","בִּלְבֵּית","הַלַּק"], translation:"אתה בבית עכשיו? (הודעה בוואטסאפ)"},
+        {target:["אַיְוַה","אַנָא","בִּלְבֵּית"], translation:"כן, אני בבית"},
+        {target:["בְּתַעְרַף","וַיְן","מִפְתָאח"], translation:"אתה יודע איפה המפתח?"},
+        {target:["לַא","מִש","עָארֶפ"], translation:"לא, לא יודע"},
+        {target:["מֻמְכִּן","תִגִ'י","עַל","בֵּיתִי"], translation:"אפשר שתבוא אליי הביתה?"},
+        {target:["טַבְּעַן","רַח","אִגִ'י","בַּעְד","שְׁוַי"], translation:"בטח, אני אבוא בעוד קצת"},
+        {target:["תַמָאם","בַּסְתַנַּכ"], translation:"מעולה, אני מחכה לך"},
+        {target:["יַאלְלָה","עַל","שְׁוַי"], translation:"יאללה, נתראה בעוד קצת"}
+      ]
+    },
+    {
+      id:3,
+      name:"דיאלוג 3 · גוף שלישי",
+      turns:[
+        {target:["וַיְן","אַחְמַד"], translation:"איפה אחמד?"},
+        {target:["הוּ","מִש","הוֹן"], translation:"הוא לא כאן"},
+        {target:["וַיְן","רַאיֶח"], translation:"לאן הוא הלך?"},
+        {target:["הוּ","רַאיֶח","עַל","שֻעְ'ל"], translation:"הוא הלך לעבודה"},
+        {target:["וַ","הִיֶּה","וַיְן","סָארָה"], translation:"ואיפה שרה?"},
+        {target:["הִיֶּה","בִּלְבֵּית"], translation:"היא בבית"},
+        {target:["הִיֶּה","תַעְבָּאנֶה"], translation:"היא עייפה?"},
+        {target:["אַיְוַה","בַּס","מְנִיחָה","הַלַּק"], translation:"כן, אבל טובה עכשיו"},
+        {target:["טַיֶּב","אַללָה","יִשְפִיהָא"], translation:"טוב, שאלוהים ירפא אותה"},
+        {target:["תַמָאם","רַח","קֻלְּהָא"], translation:"בסדר, אני אגיד לה"}
+      ]
+    },
+    {
+      id:4,
+      name:"דיאלוג 4 · רבים ורבות",
+      turns:[
+        {target:["וַיְן","אַלוְלַאד"], translation:"איפה הילדים?"},
+        {target:["הֹם","בַּרַּא","בִּלְעַבּוּ"], translation:"הם בחוץ משחקים"},
+        {target:["וַיְן","אַלְבַּנַאת"], translation:"איפה הבנות?"},
+        {target:["הֶנֶּה","בִּלְבֵּית"], translation:"הן בבית"},
+        {target:["שׁוּ","בִּיעְמַלוּ"], translation:"מה הן עושות?"},
+        {target:["בִּתְפַרְּג'וּ","תֶלֶפִזְיוֹן"], translation:"הן צופות בטלוויזיה"},
+        {target:["תַמָאם","וַקֶת","אַלְאַכְּל"], translation:"בסדר, זמן האוכל"},
+        {target:["יַאלְלָה","רַח","נַאדִי","עַלֵיהֹם"], translation:"טוב, אני אקרא להם"}
+      ]
+    },
+    {
+      id:5,
+      name:"דיאלוג 5 · מספרים",
+      turns:[
+        {target:["אַנָא","רַאיֶח","עַל","אַלְסוּק"], translation:"אני הולך לשוק"},
+        {target:["גִ'יבּ","לִי","אַרְבַּעְטַעְש","תֻפַּאחָה"], translation:"תביא לי 14 תפוחים"},
+        {target:["תַמָאם","שִי","כַּמָאן"], translation:"בסדר, עוד משהו?"},
+        {target:["אַיְוַה","גִ'יבּ","כַּמָאן","מִיֶּה","גְ'רָאם","גְ'בְּנֶה"], translation:"כן, תביא גם 100 גרם גבינה"},
+        {target:["וַ","תְלָאתֶה","כִּילוֹ","בַּנְדוּרָה"], translation:"וגם 3 קילו עגבניות"},
+        {target:["בַּס","הֵיכּ"], translation:"רק זה?"},
+        {target:["לַא","וַ","עֶשְׂרִין","מוֹזֶה","כַּמָאן"], translation:"לא, וגם 20 בננות"},
+        {target:["טַיֶּב","הַאד","כְּתִיר"], translation:"טוב, זה הרבה!"},
+        {target:["הַהַה","בַּס","עִנִּי","צִיּוּף","הַלַּק"], translation:"האה האה, אבל יש לי אורחים היום"},
+        {target:["תַמָאם","רַאיֶח","הַלַּק"], translation:"בסדר, אני הולך עכשיו"},
+        {target:["יִסְלַמוּ","כְּתִיר"], translation:"תודה רבה"}
+      ]
+    },
+    {
+      id:6,
+      name:"דיאלוג 6 · צבעים",
+      turns:[
+        {target:["שׁוּ","רַאְיַכ","לוֹן","אַלְסַיָּארָה"], translation:"מה דעתך על צבע המכונית?"},
+        {target:["אַנָא","חַאבּ","אַלְאַזְרַק"], translation:"אני אוהב את הכחול"},
+        {target:["לַא","אַלְאַחְמַר","אַחְלָא"], translation:"לא, האדום יותר יפה"},
+        {target:["טַיֶּב","וַ","אַלְאַחְ'צַר"], translation:"טוב, ומה עם הירוק?"},
+        {target:["מִש","חַאבּ","אַלְאַחְ'צַר"], translation:"אני לא אוהב את הירוק"},
+        {target:["טַיֶּב","שׁוּ","בִּדַּכ"], translation:"טוב, אז מה אתה כן רוצה?"},
+        {target:["בִּדִּי","לוֹן","תָאנִי"], translation:"אני רוצה צבע אחר"},
+        {target:["שׁוּ","יַעְנִי","תָאנִי"], translation:"מה זאת אומרת \"אחר\"?"},
+        {target:["בִּדִּי","אַלְאַסְוַד"], translation:"אני רוצה את השחור"},
+        {target:["הַהַה","טַיֶּב","אַלְאַסְוַד","חִלוּ"], translation:"האה האה, בסדר, השחור יפה"},
+        {target:["תַמָאם","קַרָאר","מְנִיח"], translation:"בסדר, החלטה טובה"}
+      ]
+    },
+    {
+      id:7,
+      name:"דיאלוג 7 · זמנים",
+      turns:[
+        {target:["וַיְן","כַּנְת","מְבַּארֶח"], translation:"איפה היית אתמול?"},
+        {target:["כַּנְת","בַּלְשֻעְ'ל"], translation:"הייתי בעבודה"},
+        {target:["וַ","בֻּכְּרַא","שׁוּ","רַח","תַעְמַל"], translation:"ומחר מה תעשה?"},
+        {target:["בֻּכְּרַא","רַח","רוּח","עַל","אַלְבַּחְר"], translation:"מחר אלך לים"},
+        {target:["זַמַאן","מַא","רֻחְת","עַל","אַלְבַּחְר"], translation:"מזמן שלא הלכתי לים"},
+        {target:["יַאלְלָה","תַעָאל","מַעִי","בֻּכְּרַא"], translation:"בוא איתי מחר"},
+        {target:["תַמָאם","בֻּכְּרַא","אַלְסָאעָה","כַּם"], translation:"בסדר, מחר באיזו שעה?"},
+        {target:["אַלְסָאעָה","עַשְׁרָה"], translation:"בשעה עשר"}
+      ]
+    },
+    {
+      id:8,
+      name:"דיאלוג 8 · עוד צבעים",
+      turns:[
+        {target:["אַי","לוֹן","בִּדַּכ"], translation:"איזה צבע אתה רוצה?"},
+        {target:["בִּדִּי","אַלְבֻּרְתֻקָאלִי"], translation:"אני רוצה כתום"},
+        {target:["אַלְבֻּרְתֻקָאלִי","מִש","חִלוּ"], translation:"כתום? לא יפה"},
+        {target:["טַיֶּב","אַלְוַרְדִי"], translation:"טוב, ורוד"},
+        {target:["כַּמָאן","לַא"], translation:"גם לא"},
+        {target:["טַיֶּב","שׁוּ","בִּדַּכ"], translation:"טוב, אז מה אתה רוצה?"},
+        {target:["בִּדִּי","אַלְבֻּנִּי"], translation:"אני רוצה חום"},
+        {target:["הַהַה","טַיֶּב","אַלְבֻּנִּי","חִלוּ"], translation:"האה האה, בסדר, חום יפה"},
+        {target:["תַמָאם","קַרָאר","מְנִיח"], translation:"בסדר, החלטה טובה"}
+      ]
+    },
+    {
+      id:9,
+      name:"דיאלוג 9 · חיות",
+      turns:[
+        {target:["עִנְדַכ","קִטָּה"], translation:"יש לך חתולה?"},
+        {target:["לַא","עִנִּי","כֶּלְבּ"], translation:"לא, יש לי כלב"},
+        {target:["שׁוּ","אִסְמֹה"], translation:"מה השם שלו?"},
+        {target:["אִסְמֹה","סֻלְטָאן"], translation:"השם שלו סולטאן"},
+        {target:["חִלוּ","כְּתִיר","בִּיֶּלְעַב","מַעַכ"], translation:"יפה מאוד, הוא משחק איתך?"},
+        {target:["אַיְוַה","דַאיְמַן"], translation:"כן, תמיד"},
+        {target:["יַאלְלָה","בְּשׁוּפַכ","בַּעְדֵין"], translation:"יאללה, נתראה אחר כך"},
+        {target:["מַסְלַמֶה"], translation:"להתראות"}
+      ]
+    },
+    {
+      id:10,
+      name:"דיאלוג 10 · בדיחה 1",
+      turns:[
+        {target:["יָא","סָעִיד"], translation:"היי, סעיד!"},
+        {target:["שׁוּ"], translation:"מה?"},
+        {target:["בִּדַּכ","תִסְמַע","נֻכְּתֶה"], translation:"רוצה לשמוע בדיחה?"},
+        {target:["מַצְחִכֶּה"], translation:"מצחיקה?"},
+        {target:["טַבְּעַן"], translation:"ברור!"},
+        {target:["לֵישׁ","סָעִיד","אִשְׁתְּרָא","אַרְבַּעְטַעְש","תֻפַּאחָה"], translation:"למה סעיד קנה 14 תפוחים?"},
+        {target:["לֵישׁ"], translation:"למה?"},
+        {target:["לַאנֹּה","מִש","עָארֶפ","אַכְּתַר","מִן","אַרְבַּעְטַעְש"], translation:"כי הוא לא יודע (לספור) יותר מ-14!"},
+        {target:["הַהַה","מַצְחִכֶּה","כְּתִיר"], translation:"האה האה, מצחיק מאוד!"},
+        {target:["יִסְלַמוּ"], translation:"תודה!"},
+        {target:["מַסְלַמֶה"], translation:"להתראות"}
+      ]
+    },
+    {
+      id:11,
+      name:"דיאלוג 11 · בדיחה 2",
+      turns:[
+        {target:["יָא","וָלִיד"], translation:"היי, וואליד!"},
+        {target:["שׁוּ"], translation:"מה?"},
+        {target:["בִּדַּכ","תִסְמַע","נֻכְּתֶה","תָאנִי"], translation:"רוצה לשמוע עוד בדיחה?"},
+        {target:["אַיְוַה","טַבְּעַן"], translation:"כן, ברור!"},
+        {target:["לֵישׁ","קִטָּה","חַזִינֶה"], translation:"למה החתולה עצובה?"},
+        {target:["לֵישׁ"], translation:"למה?"},
+        {target:["לַאנֹּה","מִש","לַאקְיֶה","כַּלְבְּהָא"], translation:"כי היא לא מוצאת את הכלב שלה!"},
+        {target:["הַהַה","חִלְוֶה","כְּתִיר"], translation:"האה האה, חמודה מאוד!"},
+        {target:["יִסְלַמוּ"], translation:"תודה"},
+        {target:["מַסְלַמֶה"], translation:"להתראות"}
+      ]
+    },
+    {
+      id:12,
+      name:"דיאלוג 12 · בדיחה 3",
+      turns:[
+        {target:["יָא","סָעִיד"], translation:"היי, סעיד!"},
+        {target:["שׁוּ"], translation:"מה?"},
+        {target:["בִּדַּכ","תִסְמַע","אַחִ'יר","נֻכְּתֶה"], translation:"רוצה לשמוע בדיחה אחרונה?"},
+        {target:["אַיְוַה","טַבְּעַן"], translation:"כן, ברור!"},
+        {target:["לֵישׁ","מוֹזֶה","חַזִינֶה"], translation:"למה הבננה עצובה?"},
+        {target:["לֵישׁ"], translation:"למה?"},
+        {target:["לַאנֹּה","כְּבִּירֶה","כְּתִיר"], translation:"כי היא גדולה מדי!"},
+        {target:["הַהַה","מַצְחִכֶּה","כְּתִיר"], translation:"האה האה, מצחיק מאוד!"},
+        {target:["יִסְלַמוּ","כְּתִיר"], translation:"תודה רבה"},
+        {target:["יַאלְלָה","מַסְלַמֶה"], translation:"יאללה, להתראות"}
+      ]
+    }
+  ];
+
+  // ---------- State ----------
+  var STORAGE_KEY = "arabic_shihon_unit1_v3";
+  var state = {
+    unitIndex: 0,
+    bankOrder: [],      // the whole unit's vocabulary, shuffled once and kept stable
+    placed: []          // words chosen so far, in chosen order
+  };
+
+  function loadState(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if(raw){
+        var saved = JSON.parse(raw);
+        if(saved){
+          if(Array.isArray(saved.bankOrder) && saved.bankOrder.length){
+            state.bankOrder = saved.bankOrder;
+          }
+        }
+      }
+    }catch(e){ /* ignore, start fresh */ }
+  }
+  function saveState(){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({bankOrder: state.bankOrder}));
+    }catch(e){ /* storage unavailable, ignore */ }
+  }
+
+  function shuffle(arr){
+    var a = arr.slice();
+    for(var i=a.length-1;i>0;i--){
+      var j = Math.floor(Math.random()*(i+1));
+      var t=a[i]; a[i]=a[j]; a[j]=t;
+    }
+    return a;
+  }
+
+  function currentUnit(){ return UNITS[state.unitIndex]; }
+
+  // finds a turn in the unit whose word-set exactly matches the placed words, ignoring order
+  function findMatch(unit, placed){
+    if(!placed.length) return null;
+    var placedSorted = placed.slice().sort();
+    for(var i=0;i<unit.turns.length;i++){
+      var t = unit.turns[i];
+      if(t.target.length !== placedSorted.length) continue;
+      var targetSorted = t.target.slice().sort();
+      var same = true;
+      for(var j=0;j<targetSorted.length;j++){
+        if(targetSorted[j] !== placedSorted[j]){ same = false; break; }
+      }
+      if(same) return t;
+    }
+    return null;
+  }
+
+  // every unique word used anywhere in the unit's dialogue, in order of first appearance
+  function unitVocab(unit){
+    var seen = {};
+    var list = [];
+    unit.turns.forEach(function(t){
+      t.target.forEach(function(w){
+        if(!seen[w]){ seen[w] = true; list.push(w); }
+      });
+    });
+    return list;
+  }
+
+  // builds (or restores) the whole-unit word pool; only reshuffles when it doesn't exist yet
+  function ensureBank(){
+    var u = currentUnit();
+    var vocab = unitVocab(u);
+    var sameSet = state.bankOrder.length === vocab.length &&
+      vocab.every(function(w){ return state.bankOrder.indexOf(w) !== -1; });
+    if(!sameSet){
+      state.bankOrder = shuffle(vocab);
+    }
+  }
+
+  function clearBuild(){
+    state.placed = [];
+  }
+
+  // ---------- DOM refs ----------
+  var mainEl = document.getElementById("main");
+  var unitTabsEl = document.getElementById("unitTabs");
+  var toastEl = document.getElementById("toast");
+  var tooltipEl = document.getElementById("tooltip");
+  var resetBtn = document.getElementById("resetBtn");
+  var hintBtn = document.getElementById("hintBtn");
+  var hintOverlay = document.getElementById("hintOverlay");
+  var hintBox = document.getElementById("hintBox");
+  var hintClose = document.getElementById("hintClose");
+  var hintList = document.getElementById("hintList");
+
+  var toastTimer = null;
+  function showToast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toastEl.classList.remove("show"); }, 1600);
+  }
+
+  var tooltipTimer = null;
+  function showTooltip(word, rect){
+    var text = DICTIONARY[word];
+    if(!text) return;
+    tooltipEl.textContent = text;
+    tooltipEl.style.right = "auto";
+    var left = rect.left + rect.width/2;
+    tooltipEl.style.left = Math.max(8, Math.min(window.innerWidth-8, left)) + "px";
+    tooltipEl.style.top = Math.max(8, rect.top - 40) + "px";
+    tooltipEl.style.transform = "translateX(-50%)";
+    tooltipEl.classList.add("show");
+    clearTimeout(tooltipTimer);
+    tooltipTimer = setTimeout(function(){ tooltipEl.classList.remove("show"); }, 1800);
+  }
+  function hideTooltip(){
+    tooltipEl.classList.remove("show");
+  }
+
+  function withinRect(rect, x, y){
+    return rect && x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+  }
+
+  // where to insert a word among the currently-placed tiles, based on pointer x.
+  // RTL layout: the first (earliest) word sits visually on the right (higher x).
+  function computeInsertIndex(slotEl, pointerX, excludeTile){
+    var tiles = Array.prototype.slice.call(slotEl.querySelectorAll(".tile.placed"));
+    if(excludeTile) tiles = tiles.filter(function(t){ return t !== excludeTile; });
+    for(var i=0;i<tiles.length;i++){
+      var r = tiles[i].getBoundingClientRect();
+      var mid = r.left + r.width/2;
+      if(pointerX > mid) return i;
+    }
+    return tiles.length;
+  }
+
+  // unified handler: tap to add/remove, long-press to show meaning,
+  // free drag from the bank into the slot (and back), drag-to-reorder inside the slot.
+  function attachDragTile(tile, word, source, pos){
+    var DRAG_THRESHOLD = 8;
+    var startX = 0, startY = 0;
+    var moved = false, dragging = false, longPressFired = false;
+    var longPressTimer = null;
+    var ghost = null;
+
+    tile.style.touchAction = "none";
+
+    tile.addEventListener("pointerdown", function(e){
+      startX = e.clientX; startY = e.clientY;
+      moved = false; dragging = false; longPressFired = false;
+      clearTimeout(longPressTimer);
+      longPressTimer = setTimeout(function(){
+        longPressFired = true;
+        showTooltip(word, tile.getBoundingClientRect());
+      }, 420);
+      try{ tile.setPointerCapture(e.pointerId); }catch(err){}
+    });
+
+    tile.addEventListener("pointermove", function(e){
+      var dx = e.clientX - startX;
+      var dy = e.clientY - startY;
+      if(!moved && Math.sqrt(dx*dx + dy*dy) > DRAG_THRESHOLD){
+        moved = true;
+        dragging = true;
+        clearTimeout(longPressTimer);
+        hideTooltip();
+        var r = tile.getBoundingClientRect();
+        ghost = tile.cloneNode(true);
+        ghost.classList.add("tile-ghost");
+        ghost.style.left = r.left + "px";
+        ghost.style.top = r.top + "px";
+        ghost.style.width = r.width + "px";
+        ghost.style.height = r.height + "px";
+        document.body.appendChild(ghost);
+        tile.classList.add("drag-source");
+      }
+      if(dragging && ghost){
+        ghost.style.left = (e.clientX - ghost.offsetWidth/2) + "px";
+        ghost.style.top = (e.clientY - ghost.offsetHeight/2) + "px";
+        var slotEl = mainEl.querySelector(".slot");
+        var bankEl = mainEl.querySelector(".bank");
+        var overSlot = withinRect(slotEl && slotEl.getBoundingClientRect(), e.clientX, e.clientY);
+        var overBank = withinRect(bankEl && bankEl.getBoundingClientRect(), e.clientX, e.clientY);
+        if(slotEl) slotEl.classList.toggle("drag-over", overSlot);
+        if(bankEl) bankEl.classList.toggle("drag-over", source==="slot" && overBank);
+      }
+    });
+
+    function finish(e){
+      clearTimeout(longPressTimer);
+      if(dragging){
+        var slotEl = mainEl.querySelector(".slot");
+        var bankEl = mainEl.querySelector(".bank");
+        if(ghost){ ghost.remove(); ghost = null; }
+        tile.classList.remove("drag-source");
+        if(slotEl) slotEl.classList.remove("drag-over");
+        if(bankEl) bankEl.classList.remove("drag-over");
+
+        var overSlot = withinRect(slotEl && slotEl.getBoundingClientRect(), e.clientX, e.clientY);
+
+        if(source === "bank"){
+          if(overSlot && state.placed.indexOf(word) === -1){
+            var idx = computeInsertIndex(slotEl, e.clientX, null);
+            state.placed.splice(idx, 0, word);
+            render();
+          }
+          // dropped outside the slot: word stays in the bank, nothing changes
+        } else {
+          var curIdx = state.placed.indexOf(word);
+          if(overSlot){
+            if(curIdx !== -1) state.placed.splice(curIdx, 1);
+            var newIdx = computeInsertIndex(slotEl, e.clientX, null);
+            state.placed.splice(newIdx, 0, word);
+          } else {
+            // dropped back outside the slot: return the word to the bank
+            if(curIdx !== -1) state.placed.splice(curIdx, 1);
+          }
+          render();
+        }
+      } else if(!longPressFired){
+        if(source === "bank"){
+          if(state.placed.indexOf(word) === -1){
+            state.placed.push(word);
+            render();
+          }
+        } else {
+          state.placed.splice(pos, 1);
+          render();
+        }
+      }
+      dragging = false; moved = false;
+    }
+
+    tile.addEventListener("pointerup", finish);
+    tile.addEventListener("pointercancel", function(){
+      clearTimeout(longPressTimer);
+      if(ghost){ ghost.remove(); ghost = null; }
+      tile.classList.remove("drag-source");
+      var slotEl = mainEl.querySelector(".slot");
+      var bankEl = mainEl.querySelector(".bank");
+      if(slotEl) slotEl.classList.remove("drag-over");
+      if(bankEl) bankEl.classList.remove("drag-over");
+      dragging = false; moved = false;
+    });
+    tile.addEventListener("contextmenu", function(e){ e.preventDefault(); });
+  }
+
+  // ---------- Rendering ----------
+  function renderUnitTabs(){
+    unitTabsEl.innerHTML = "";
+    UNITS.forEach(function(u, idx){
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "unit-tab" + (idx===state.unitIndex ? " active":"");
+      btn.textContent = u.name;
+      btn.addEventListener("click", function(){
+        state.unitIndex = idx;
+        ensureBank();
+        clearBuild();
+        saveState();
+        render();
+      });
+      unitTabsEl.appendChild(btn);
+    });
+  }
+
+  function renderHintList(){
+    var u = currentUnit();
+    hintList.innerHTML = "";
+    if(!u.turns.length){
+      var p = document.createElement("div");
+      p.className = "soon-card";
+      p.textContent = "הדיאלוג הזה עדיין בבנייה";
+      hintList.appendChild(p);
+      return;
+    }
+    var wrap = document.createElement("div");
+    wrap.className = "log";
+    u.turns.forEach(function(t, i){
+      var row = document.createElement("div");
+      row.className = "bubble-row";
+      var num = document.createElement("div");
+      num.className = "bubble-num";
+      num.textContent = (i+1);
+      var content = document.createElement("div");
+      content.className = "bubble-content";
+      var textEl = document.createElement("div");
+      textEl.className = "bubble-text";
+      textEl.textContent = t.target.join(" ");
+      var transEl = document.createElement("div");
+      transEl.className = "bubble-translation";
+      transEl.textContent = t.translation;
+      content.appendChild(textEl);
+      content.appendChild(transEl);
+      row.appendChild(num);
+      row.appendChild(content);
+      wrap.appendChild(row);
+    });
+    hintList.appendChild(wrap);
+  }
+
+  function openHint(){
+    renderHintList();
+    hintOverlay.hidden = false;
+  }
+  function closeHint(){
+    hintOverlay.hidden = true;
+  }
+
+  function renderChallenge(container){
+    var u = currentUnit();
+
+    if(!u.turns.length){
+      var soon = document.createElement("div");
+      soon.className = "soon-card";
+      soon.textContent = "הדיאלוג הזה עדיין בבנייה — נוסיף לו תוכן בהמשך";
+      container.appendChild(soon);
+      return;
+    }
+
+    var card = document.createElement("div");
+    card.className = "challenge";
+
+    var match = findMatch(u, state.placed);
+
+    var slot = document.createElement("div");
+    slot.className = "slot" + (match ? " correct" : "");
+    if(state.placed.length === 0){
+      var ph = document.createElement("div");
+      ph.className = "slot-placeholder";
+      ph.textContent = "הקישו על מילים מהמאגר או גררו אותן לכאן כדי לבנות משפט מהדיאלוג";
+      slot.appendChild(ph);
+    } else {
+      state.placed.forEach(function(word, pos){
+        var tile = document.createElement("button");
+        tile.type = "button";
+        tile.className = "tile placed";
+        tile.textContent = word;
+        tile.dataset.word = word;
+        attachDragTile(tile, word, "slot", pos);
+        slot.appendChild(tile);
+      });
+    }
+    card.appendChild(slot);
+
+    var bankRow = document.createElement("div");
+    bankRow.className = "bank" + (match ? " disabled":"");
+    state.bankOrder.forEach(function(word){
+      if(state.placed.indexOf(word) !== -1) return; // already placed in the slot
+      var tile = document.createElement("button");
+      tile.type = "button";
+      tile.className = "tile";
+      tile.textContent = word;
+      tile.dataset.word = word;
+      attachDragTile(tile, word, "bank", null);
+      bankRow.appendChild(tile);
+    });
+    card.appendChild(bankRow);
+
+    if(match){
+      var sentence = match.target.join(" ");
+
+      var transBox = document.createElement("div");
+      transBox.className = "translation-box";
+      transBox.hidden = true;
+      transBox.textContent = "תרגום: " + match.translation;
+      card.appendChild(transBox);
+
+      var copyRow = document.createElement("div");
+      copyRow.className = "copy-row";
+
+      var translateFab = document.createElement("button");
+      translateFab.type = "button";
+      translateFab.className = "action-fab translate";
+      translateFab.setAttribute("aria-label", "הצגת תרגום");
+      translateFab.title = "תרגום";
+      translateFab.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h9M8 3v2M13 5c-1 4-3.5 6.5-7 8.5M6 9c1.2 1.8 3.2 3.2 5.5 4"/><path d="m14 21 4-9 4 9M15.3 18h5.4"/></svg>';
+      translateFab.addEventListener("click", function(){
+        transBox.hidden = !transBox.hidden;
+      });
+
+      var sendFab = document.createElement("button");
+      sendFab.type = "button";
+      sendFab.className = "action-fab send";
+      sendFab.setAttribute("aria-label", "שליחה בוואטסאפ");
+      sendFab.title = "שליחה";
+      sendFab.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+      sendFab.addEventListener("click", function(){
+        window.open("https://wa.me/?text=" + encodeURIComponent(sentence), "_blank");
+      });
+
+      var copyFab = document.createElement("button");
+      copyFab.type = "button";
+      copyFab.className = "action-fab copy";
+      copyFab.setAttribute("aria-label", "העתקת המשפט");
+      copyFab.title = "העתקה";
+      copyFab.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+      copyFab.addEventListener("click", function(){
+        copyText(sentence);
+        showToast("הועתק ✓");
+      });
+
+      copyRow.appendChild(translateFab);
+      copyRow.appendChild(sendFab);
+      copyRow.appendChild(copyFab);
+      card.appendChild(copyRow);
+    } else {
+      var hint = document.createElement("div");
+      hint.className = "hint";
+      hint.textContent = "הסדר לא משנה — אפשר לגרור מילה מהמאגר לתיבה (ובחזרה), וגם לגרור בתוך התיבה כדי לסדר מחדש";
+      card.appendChild(hint);
+    }
+
+    container.appendChild(card);
+  }
+
+  function copyText(text){
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text);
+        return;
+      }
+    }catch(e){}
+    try{
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+    }catch(e){}
+  }
+
+  function render(){
+    hideTooltip();
+    renderUnitTabs();
+    mainEl.innerHTML = "";
+    renderChallenge(mainEl);
+  }
+
+  resetBtn.addEventListener("click", function(){
+    clearBuild();
+    render();
+  });
+
+  hintBtn.addEventListener("click", openHint);
+  hintClose.addEventListener("click", closeHint);
+  hintOverlay.addEventListener("click", function(e){
+    if(e.target === hintOverlay) closeHint();
+  });
+
+  // ---------- Boot ----------
+  function boot(data){
+    loadState();
+    ensureBank();
+    saveState();
+    clearBuild();
+    render();
+  }
+
+  try{
+    if(window.claude && window.claude.hot){
+      window.claude.hot.snapshot(function(){ return {}; });
+      window.claude.hot.ready ? window.claude.hot.ready(boot) : boot(window.claude.hot.data);
+    } else {
+      boot();
+    }
+  }catch(e){ boot(); }
+
+  // registers the service worker so the app can be installed to the home screen
+  // (only works when served over https/localhost with sw.js alongside this file — silently does nothing otherwise, e.g. in this preview)
+  try{
+    if("serviceWorker" in navigator){
+      window.addEventListener("load", function(){
+        navigator.serviceWorker.register("sw.js").catch(function(){ /* not available here, ignore */ });
+      });
+    }
+  }catch(e){ /* ignore */ }
+})();
+</script>
+
+</body>
+</html>
