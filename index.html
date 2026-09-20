@@ -1,5 +1,18 @@
+﻿<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>שיחון ערבית</title>
 <meta name="description" content="לומדים ערבית מדוברת בתעתיק עברי — בונים משפטים מהמאגר ושולחים בוואטסאפ">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#16a34a">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="שיחון ערבית">
+<meta name="mobile-web-app-capable" content="yes">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -150,10 +163,9 @@
   }
   main{
     flex:1;
-    padding:18px 18px 12px;
+    padding:20px 18px 24px;
     display:flex;
     flex-direction:column;
-    justify-content:center;
     gap:14px;
   }
   .log{
@@ -510,7 +522,8 @@
     text-align:center;
   }
 </style>
-
+</head>
+<body>
 <div id="app" dir="rtl" lang="he">
   <header>
     <div class="title-row">
@@ -1398,5 +1411,18 @@
       boot();
     }
   }catch(e){ boot(); }
+
+  // registers the service worker so the app can be installed to the home screen
+  // (only works when served over https/localhost with sw.js alongside this file — silently does nothing otherwise, e.g. in this preview)
+  try{
+    if("serviceWorker" in navigator){
+      window.addEventListener("load", function(){
+        navigator.serviceWorker.register("sw.js").catch(function(){ /* not available here, ignore */ });
+      });
+    }
+  }catch(e){ /* ignore */ }
 })();
 </script>
+
+</body>
+</html>
