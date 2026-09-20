@@ -1,8 +1,3 @@
-<!DOCTYPE html>
-<html dir="rtl" lang="he">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>שיחון ערבית</title>
 <meta name="description" content="לומדים ערבית מדוברת בתעתיק עברי — בונים משפטים מהמאגר ושולחים בוואטסאפ">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -302,11 +297,15 @@
     color:var(--bg);
     border-color:var(--text);
   }
-  .tile.placed.dragging{
-    opacity:.65;
-    cursor:grabbing;
-    z-index:15;
-    position:relative;
+  .tile.drag-source{
+    opacity:.35;
+  }
+  .tile-ghost{
+    position:fixed;
+    pointer-events:none;
+    z-index:999;
+    box-shadow:0 8px 20px rgba(0,0,0,.25);
+    transform:scale(1.06) rotate(-2deg);
     transition:none;
   }
   .tile.used-hidden{
@@ -317,10 +316,20 @@
     flex-wrap:wrap;
     gap:8px;
     margin-top:12px;
+    border-radius:12px;
+    transition:background .15s, box-shadow .15s;
   }
   .bank.disabled .tile{
     opacity:.35;
     pointer-events:none;
+  }
+  .bank.drag-over{
+    background:var(--surface-alt);
+    box-shadow:inset 0 0 0 2px var(--border-strong);
+  }
+  .slot.drag-over{
+    border-color:var(--text);
+    background:var(--surface-alt);
   }
   .clear-btn{
     background:none;
@@ -483,8 +492,7 @@
     text-align:center;
   }
 </style>
-</head>
-<body>
+
 <div id="app" dir="rtl" lang="he">
   <header>
     <div class="title-row">
@@ -1021,35 +1029,31 @@
     tooltipEl.classList.remove("show");
   }
 
-  function attachLongPress(el, word){
-    var pressTimer = null;
-    var fired = false;
-    function start(e){
-      fired = false;
-      pressTimer = setTimeout(function(){
-        fired = true;
-        var r = el.getBoundingClientRect();
-        showTooltip(word, r);
-      }, 420);
-    }
-    function cancel(){
-      clearTimeout(pressTimer);
-    }
-    el.addEventListener("pointerdown", start);
-    el.addEventListener("pointerup", cancel);
-    el.addEventListener("pointerleave", cancel);
-    el.addEventListener("pointercancel", cancel);
-    el.addEventListener("contextmenu", function(e){ e.preventDefault(); });
-    // expose whether the last interaction was a long-press so click can be suppressed
-    el.__wasLongPress = function(){ return fired; };
+  function withinRect(rect, x, y){
+    return rect && x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
   }
 
-  // combines: tap to remove, long-press to show meaning, drag to reorder within the slot
-  function makeTileSortable(tile, word, pos){
+  // where to insert a word among the currently-placed tiles, based on pointer x.
+  // RTL layout: the first (earliest) word sits visually on the right (higher x).
+  function computeInsertIndex(slotEl, pointerX, excludeTile){
+    var tiles = Array.prototype.slice.call(slotEl.querySelectorAll(".tile.placed"));
+    if(excludeTile) tiles = tiles.filter(function(t){ return t !== excludeTile; });
+    for(var i=0;i<tiles.length;i++){
+      var r = tiles[i].getBoundingClientRect();
+      var mid = r.left + r.width/2;
+      if(pointerX > mid) return i;
+    }
+    return tiles.length;
+  }
+
+  // unified handler: tap to add/remove, long-press to show meaning,
+  // free drag from the bank into the slot (and back), drag-to-reorder inside the slot.
+  function attachDragTile(tile, word, source, pos){
     var DRAG_THRESHOLD = 8;
     var startX = 0, startY = 0;
     var moved = false, dragging = false, longPressFired = false;
     var longPressTimer = null;
+    var ghost = null;
 
     tile.style.touchAction = "none";
 
@@ -1072,47 +1076,69 @@
         dragging = true;
         clearTimeout(longPressTimer);
         hideTooltip();
-        tile.classList.add("dragging");
+        var r = tile.getBoundingClientRect();
+        ghost = tile.cloneNode(true);
+        ghost.classList.add("tile-ghost");
+        ghost.style.left = r.left + "px";
+        ghost.style.top = r.top + "px";
+        ghost.style.width = r.width + "px";
+        ghost.style.height = r.height + "px";
+        document.body.appendChild(ghost);
+        tile.classList.add("drag-source");
       }
-      if(dragging){
-        tile.style.transform = "translate(" + dx + "px," + dy + "px)";
-        var slotEl = tile.parentElement;
-        if(!slotEl) return;
-        var siblings = Array.prototype.slice.call(slotEl.querySelectorAll(".tile.placed:not(.dragging)"));
-        var pointerX = e.clientX;
-        var inserted = false;
-        for(var i=0;i<siblings.length;i++){
-          var r = siblings[i].getBoundingClientRect();
-          var mid = r.left + r.width/2;
-          // RTL layout: the first (earliest) word sits visually on the right (higher x)
-          if(pointerX > mid){
-            if(siblings[i] !== tile.nextSibling){
-              slotEl.insertBefore(tile, siblings[i]);
-            }
-            inserted = true;
-            break;
-          }
-        }
-        if(!inserted && slotEl.lastElementChild !== tile){
-          slotEl.appendChild(tile);
-        }
+      if(dragging && ghost){
+        ghost.style.left = (e.clientX - ghost.offsetWidth/2) + "px";
+        ghost.style.top = (e.clientY - ghost.offsetHeight/2) + "px";
+        var slotEl = mainEl.querySelector(".slot");
+        var bankEl = mainEl.querySelector(".bank");
+        var overSlot = withinRect(slotEl && slotEl.getBoundingClientRect(), e.clientX, e.clientY);
+        var overBank = withinRect(bankEl && bankEl.getBoundingClientRect(), e.clientX, e.clientY);
+        if(slotEl) slotEl.classList.toggle("drag-over", overSlot);
+        if(bankEl) bankEl.classList.toggle("drag-over", source==="slot" && overBank);
       }
     });
 
     function finish(e){
       clearTimeout(longPressTimer);
       if(dragging){
-        tile.classList.remove("dragging");
-        tile.style.transform = "";
-        var slotEl = tile.parentElement;
-        if(slotEl){
-          var newOrder = Array.prototype.map.call(slotEl.querySelectorAll(".tile.placed"), function(el){ return el.dataset.word; });
-          state.placed = newOrder;
+        var slotEl = mainEl.querySelector(".slot");
+        var bankEl = mainEl.querySelector(".bank");
+        if(ghost){ ghost.remove(); ghost = null; }
+        tile.classList.remove("drag-source");
+        if(slotEl) slotEl.classList.remove("drag-over");
+        if(bankEl) bankEl.classList.remove("drag-over");
+
+        var overSlot = withinRect(slotEl && slotEl.getBoundingClientRect(), e.clientX, e.clientY);
+
+        if(source === "bank"){
+          if(overSlot && state.placed.indexOf(word) === -1){
+            var idx = computeInsertIndex(slotEl, e.clientX, null);
+            state.placed.splice(idx, 0, word);
+            render();
+          }
+          // dropped outside the slot: word stays in the bank, nothing changes
+        } else {
+          var curIdx = state.placed.indexOf(word);
+          if(overSlot){
+            if(curIdx !== -1) state.placed.splice(curIdx, 1);
+            var newIdx = computeInsertIndex(slotEl, e.clientX, null);
+            state.placed.splice(newIdx, 0, word);
+          } else {
+            // dropped back outside the slot: return the word to the bank
+            if(curIdx !== -1) state.placed.splice(curIdx, 1);
+          }
+          render();
         }
-        render();
       } else if(!longPressFired){
-        state.placed.splice(pos,1);
-        render();
+        if(source === "bank"){
+          if(state.placed.indexOf(word) === -1){
+            state.placed.push(word);
+            render();
+          }
+        } else {
+          state.placed.splice(pos, 1);
+          render();
+        }
       }
       dragging = false; moved = false;
     }
@@ -1120,10 +1146,15 @@
     tile.addEventListener("pointerup", finish);
     tile.addEventListener("pointercancel", function(){
       clearTimeout(longPressTimer);
-      tile.classList.remove("dragging");
-      tile.style.transform = "";
+      if(ghost){ ghost.remove(); ghost = null; }
+      tile.classList.remove("drag-source");
+      var slotEl = mainEl.querySelector(".slot");
+      var bankEl = mainEl.querySelector(".bank");
+      if(slotEl) slotEl.classList.remove("drag-over");
+      if(bankEl) bankEl.classList.remove("drag-over");
       dragging = false; moved = false;
     });
+    tile.addEventListener("contextmenu", function(e){ e.preventDefault(); });
   }
 
   // ---------- Rendering ----------
@@ -1209,7 +1240,7 @@
     if(state.placed.length === 0){
       var ph = document.createElement("div");
       ph.className = "slot-placeholder";
-      ph.textContent = "הקישו על מילים מהמאגר כדי לבנות משפט מהדיאלוג";
+      ph.textContent = "הקישו על מילים מהמאגר או גררו אותן לכאן כדי לבנות משפט מהדיאלוג";
       slot.appendChild(ph);
     } else {
       state.placed.forEach(function(word, pos){
@@ -1218,7 +1249,7 @@
         tile.className = "tile placed";
         tile.textContent = word;
         tile.dataset.word = word;
-        makeTileSortable(tile, word, pos);
+        attachDragTile(tile, word, "slot", pos);
         slot.appendChild(tile);
       });
     }
@@ -1232,13 +1263,8 @@
       tile.type = "button";
       tile.className = "tile";
       tile.textContent = word;
-      tile.addEventListener("click", function(){
-        if(tile.__wasLongPress && tile.__wasLongPress()) return;
-        if(match) return;
-        state.placed.push(word);
-        render();
-      });
-      attachLongPress(tile, word);
+      tile.dataset.word = word;
+      attachDragTile(tile, word, "bank", null);
       bankRow.appendChild(tile);
     });
     card.appendChild(bankRow);
@@ -1293,7 +1319,7 @@
     } else {
       var hint = document.createElement("div");
       hint.className = "hint";
-      hint.textContent = "הסדר לא משנה — בנו כל משפט מהדיאלוג ואפשר גם לגרור מילה כדי לסדר אותה מחדש";
+      hint.textContent = "הסדר לא משנה — אפשר לגרור מילה מהמאגר לתיבה (ובחזרה), וגם לגרור בתוך התיבה כדי לסדר מחדש";
       card.appendChild(hint);
     }
 
@@ -1356,6 +1382,3 @@
   }catch(e){ boot(); }
 })();
 </script>
-
-</body>
-</html>
