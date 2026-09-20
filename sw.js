@@ -1,6 +1,10 @@
 // Minimal service worker — enables "Add to Home Screen" / install,
 // and caches the app shell so it also opens with no internet connection.
-const CACHE_NAME = "shihon-arabic-v1";
+//
+// Bump CACHE_NAME any time this file itself needs a hard refresh across
+// installs; the fetch handler below is network-first, so ordinary content
+// updates (editing index.html) show up immediately without needing that.
+const CACHE_NAME = "shihon-arabic-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -29,21 +33,20 @@ self.addEventListener("activate", function(event){
   );
 });
 
-// cache-first, falling back to the network, so the app opens even offline
+// network-first, falling back to the cache only when there's no connection —
+// this way every edit to the app shows up on the very next load, and the
+// cached copy is only ever used as an offline fallback.
 self.addEventListener("fetch", function(event){
   if(event.request.method !== "GET") return;
   event.respondWith(
-    caches.match(event.request).then(function(cached){
-      if(cached) return cached;
-      return fetch(event.request).then(function(response){
-        if(response && response.ok){
-          var copy = response.clone();
-          caches.open(CACHE_NAME).then(function(cache){ cache.put(event.request, copy); });
-        }
-        return response;
-      }).catch(function(){
-        return cached;
-      });
+    fetch(event.request).then(function(response){
+      if(response && response.ok){
+        var copy = response.clone();
+        caches.open(CACHE_NAME).then(function(cache){ cache.put(event.request, copy); });
+      }
+      return response;
+    }).catch(function(){
+      return caches.match(event.request);
     })
   );
 });
