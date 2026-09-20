@@ -22,6 +22,8 @@
     --accent-strong:#0e7a37;
     --danger:#c23b3b;
     --danger-bg:#fbe9e9;
+    --blue:#2563eb;
+    --yellow:#d69e0a;
     --shadow: 0 1px 2px rgba(20,20,10,.06);
     font-family: 'Heebo', system-ui, sans-serif;
   }
@@ -39,6 +41,8 @@
       --accent-strong:#4ade80;
       --danger:#e56868;
       --danger-bg:rgba(226,80,80,.14);
+      --blue:#5b93f5;
+      --yellow:#e8b13a;
       --shadow: 0 1px 2px rgba(0,0,0,.4);
     }
   }
@@ -55,6 +59,8 @@
     --accent-strong:#4ade80;
     --danger:#e56868;
     --danger-bg:rgba(226,80,80,.14);
+    --blue:#5b93f5;
+    --yellow:#e8b13a;
     --shadow: 0 1px 2px rgba(0,0,0,.4);
   }
   *{box-sizing:border-box;}
@@ -218,32 +224,43 @@
   .copy-row{
     display:flex;
     justify-content:center;
+    gap:14px;
     margin-top:14px;
   }
-  .copy-fab{
+  .action-fab{
     position:relative;
     overflow:hidden;
-    width:60px;
-    height:60px;
+    width:56px;
+    height:56px;
     border-radius:50%;
     border:none;
-    background:var(--accent);
     color:#fff;
     display:flex;
     align-items:center;
     justify-content:center;
     cursor:pointer;
-    box-shadow:0 6px 16px rgba(22,163,74,.35);
     animation:popIn .5s cubic-bezier(.34,1.56,.64,1);
   }
-  .copy-fab:active{ transform:scale(.93); }
-  .copy-fab::after{
+  .action-fab:active{ transform:scale(.93); }
+  .action-fab::after{
     content:"";
     position:absolute;
     inset:0;
     background:linear-gradient(120deg, transparent 35%, rgba(255,255,255,.65) 50%, transparent 65%);
     transform:translateX(-120%);
     animation:shine 1s ease .2s 1;
+  }
+  .action-fab.translate{
+    background:var(--blue);
+    box-shadow:0 6px 16px rgba(37,99,235,.35);
+  }
+  .action-fab.send{
+    background:var(--accent);
+    box-shadow:0 6px 16px rgba(22,163,74,.35);
+  }
+  .action-fab.copy{
+    background:var(--yellow);
+    box-shadow:0 6px 16px rgba(214,158,10,.35);
   }
   @keyframes popIn{
     0%{ transform:scale(0); opacity:0; }
@@ -256,8 +273,8 @@
   }
   @media (prefers-reduced-motion: reduce){
     .slot.correct{ animation:none; }
-    .copy-fab{ animation:none; }
-    .copy-fab::after{ animation:none; display:none; }
+    .action-fab{ animation:none; }
+    .action-fab::after{ animation:none; display:none; }
   }
   .slot-placeholder{
     color:var(--text-muted);
@@ -835,9 +852,9 @@
     },
     {
       id:10,
-      name:"דיאלוג 10 · בדיחות",
+      name:"דיאלוג 10 · בדיחה 1",
       turns:[
-        {target:["יָא","סָעִיד"], translation:"היי, סעיד! (בדיחה 1)"},
+        {target:["יָא","סָעִיד"], translation:"היי, סעיד!"},
         {target:["שׁוּ"], translation:"מה?"},
         {target:["בִּדַּכ","תִסְמַע","נֻכְּתֶה"], translation:"רוצה לשמוע בדיחה?"},
         {target:["מַצְחִכֶּה"], translation:"מצחיקה?"},
@@ -846,28 +863,38 @@
         {target:["לֵישׁ"], translation:"למה?"},
         {target:["לַאנֹּה","מִש","עָארֶפ","אַכְּתַר","מִן","אַרְבַּעְטַעְש"], translation:"כי הוא לא יודע (לספור) יותר מ-14!"},
         {target:["הַהַה","מַצְחִכֶּה","כְּתִיר"], translation:"האה האה, מצחיק מאוד!"},
-        {target:["יִסְלַמוּ"], translation:"תודה! (סוף בדיחה 1)"},
-        {target:["מַסְלַמֶה"], translation:"להתראות"},
-
-        {target:["יָא","וָלִיד"], translation:"היי, וואליד! (בדיחה 2)"},
+        {target:["יִסְלַמוּ"], translation:"תודה!"},
+        {target:["מַסְלַמֶה"], translation:"להתראות"}
+      ]
+    },
+    {
+      id:11,
+      name:"דיאלוג 11 · בדיחה 2",
+      turns:[
+        {target:["יָא","וָלִיד"], translation:"היי, וואליד!"},
         {target:["שׁוּ"], translation:"מה?"},
         {target:["בִּדַּכ","תִסְמַע","נֻכְּתֶה","תָאנִי"], translation:"רוצה לשמוע עוד בדיחה?"},
         {target:["אַיְוַה","טַבְּעַן"], translation:"כן, ברור!"},
         {target:["לֵישׁ","קִטָּה","חַזִינֶה"], translation:"למה החתולה עצובה?"},
         {target:["לֵישׁ"], translation:"למה?"},
         {target:["לַאנֹּה","מִש","לַאקְיֶה","כַּלְבְּהָא"], translation:"כי היא לא מוצאת את הכלב שלה!"},
-        {target:["הַהַה","חִלְוֶה","כְּתִיר"], translation:"האה האה, חמודה מאוד! (סוף בדיחה 2)"},
+        {target:["הַהַה","חִלְוֶה","כְּתִיר"], translation:"האה האה, חמודה מאוד!"},
         {target:["יִסְלַמוּ"], translation:"תודה"},
-        {target:["מַסְלַמֶה"], translation:"להתראות"},
-
-        {target:["יָא","סָעִיד"], translation:"היי, סעיד! (בדיחה 3)"},
+        {target:["מַסְלַמֶה"], translation:"להתראות"}
+      ]
+    },
+    {
+      id:12,
+      name:"דיאלוג 12 · בדיחה 3",
+      turns:[
+        {target:["יָא","סָעִיד"], translation:"היי, סעיד!"},
         {target:["שׁוּ"], translation:"מה?"},
         {target:["בִּדַּכ","תִסְמַע","אַחִ'יר","נֻכְּתֶה"], translation:"רוצה לשמוע בדיחה אחרונה?"},
         {target:["אַיְוַה","טַבְּעַן"], translation:"כן, ברור!"},
         {target:["לֵישׁ","מוֹזֶה","חַזִינֶה"], translation:"למה הבננה עצובה?"},
         {target:["לֵישׁ"], translation:"למה?"},
         {target:["לַאנֹּה","כְּבִּירֶה","כְּתִיר"], translation:"כי היא גדולה מדי!"},
-        {target:["הַהַה","מַצְחִכֶּה","כְּתִיר"], translation:"האה האה, מצחיק מאוד! (סוף בדיחה 3)"},
+        {target:["הַהַה","מַצְחִכֶּה","כְּתִיר"], translation:"האה האה, מצחיק מאוד!"},
         {target:["יִסְלַמוּ","כְּתִיר"], translation:"תודה רבה"},
         {target:["יַאלְלָה","מַסְלַמֶה"], translation:"יאללה, להתראות"}
       ]
@@ -1228,41 +1255,41 @@
       var copyRow = document.createElement("div");
       copyRow.className = "copy-row";
 
+      var translateFab = document.createElement("button");
+      translateFab.type = "button";
+      translateFab.className = "action-fab translate";
+      translateFab.setAttribute("aria-label", "הצגת תרגום");
+      translateFab.title = "תרגום";
+      translateFab.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h9M8 3v2M13 5c-1 4-3.5 6.5-7 8.5M6 9c1.2 1.8 3.2 3.2 5.5 4"/><path d="m14 21 4-9 4 9M15.3 18h5.4"/></svg>';
+      translateFab.addEventListener("click", function(){
+        transBox.hidden = !transBox.hidden;
+      });
+
+      var sendFab = document.createElement("button");
+      sendFab.type = "button";
+      sendFab.className = "action-fab send";
+      sendFab.setAttribute("aria-label", "שליחה בוואטסאפ");
+      sendFab.title = "שליחה";
+      sendFab.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+      sendFab.addEventListener("click", function(){
+        window.open("https://wa.me/?text=" + encodeURIComponent(sentence), "_blank");
+      });
+
       var copyFab = document.createElement("button");
       copyFab.type = "button";
-      copyFab.className = "copy-fab";
+      copyFab.className = "action-fab copy";
       copyFab.setAttribute("aria-label", "העתקת המשפט");
       copyFab.title = "העתקה";
-      copyFab.innerHTML = '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+      copyFab.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
       copyFab.addEventListener("click", function(){
         copyText(sentence);
         showToast("הועתק ✓");
       });
+
+      copyRow.appendChild(translateFab);
+      copyRow.appendChild(sendFab);
       copyRow.appendChild(copyFab);
       card.appendChild(copyRow);
-
-      var actions = document.createElement("div");
-      actions.className = "actions";
-
-      var translateBtn = document.createElement("button");
-      translateBtn.type = "button";
-      translateBtn.className = "btn ghost";
-      translateBtn.textContent = "תרגום";
-      translateBtn.addEventListener("click", function(){
-        transBox.hidden = !transBox.hidden;
-      });
-
-      var waBtn = document.createElement("button");
-      waBtn.type = "button";
-      waBtn.className = "btn";
-      waBtn.textContent = "שליחה בוואטסאפ";
-      waBtn.addEventListener("click", function(){
-        window.open("https://wa.me/?text=" + encodeURIComponent(sentence), "_blank");
-      });
-
-      actions.appendChild(translateBtn);
-      actions.appendChild(waBtn);
-      card.appendChild(actions);
     } else {
       var hint = document.createElement("div");
       hint.className = "hint";
