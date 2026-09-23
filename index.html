@@ -533,6 +533,12 @@
     <div class="title-row">
       <h1>שיחון ערבית מדוברת</h1>
       <div class="header-actions">
+        <button class="lamp-btn" id="shareBtn" type="button" aria-label="שיתוף האפליקציה" title="שיתוף">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.7 15.7 6.3M8.3 13.3l7.4 4.4"/></svg>
+        </button>
+        <button class="lamp-btn" id="installBtn" type="button" aria-label="התקנת האפליקציה" title="התקנה" hidden>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+        </button>
         <button class="lamp-btn" id="hintBtn" type="button" aria-label="הצג את כל השיחה" title="הצג את כל השיחה">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 1.1 1 1.9v.2h5v-.2c0-.8.4-1.5 1-1.9A6 6 0 0 0 12 3Z"/></svg>
         </button>
@@ -548,6 +554,20 @@
 </div>
 <div class="toast" id="toast"></div>
 <div class="tooltip" id="tooltip"></div>
+<div class="modal-overlay" id="installOverlay" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <div class="modal-title">התקנה למסך הבית</div>
+      <button class="modal-close" id="installClose" type="button" aria-label="סגירה">✕</button>
+    </div>
+    <p style="margin:0 0 10px;font-size:.95rem;line-height:1.6;">כדי להתקין את האפליקציה על מסך הבית באייפון:</p>
+    <ol style="margin:0;padding-inline-start:20px;font-size:.92rem;line-height:1.8;color:var(--text-muted);">
+      <li>לחצו על כפתור השיתוף <b>&#x2B95;</b> בסָפארי</li>
+      <li>גללו ובחרו <b>"הוסף למסך הבית"</b></li>
+      <li>לחצו <b>"הוסף"</b> — האפליקציה תופיע כאייקון בבית</li>
+    </ol>
+  </div>
+</div>
 <div class="modal-overlay" id="hintOverlay" hidden>
   <div class="modal-box" id="hintBox" role="dialog" aria-modal="true">
     <div class="modal-head">
@@ -585,7 +605,6 @@
     "בְּשׁוּפַכ":"אראה אותך (לגבר)",
     "בַּעְדֵין":"אחר כך",
     "מַסְלַמֶה":"שלום, לך בשלום (פרידה)",
-    "גַ'עָאן":"רעב",
     "אַיְוַה":"כן",
     "כְּתִיר":"מאוד / הרבה",
     "בִּדַּכ":"אתה רוצה (לגבר)",
@@ -663,7 +682,7 @@
     "לִי":"לי",
     "אַרְבַּעְטַעְש":"ארבע עשרה",
     "תֻפַּאחָה":"תפוח",
-    "שִי":"משהו",
+    "אִשִׁי":"משהו",
     "מִיֶּה":"מאה",
     "גְ'רָאם":"גרם",
     "גְ'בְּנֶה":"גבינה",
@@ -698,7 +717,7 @@
     "עַשְׁרָה":"עשר",
     "אַלְסָאעָה":"השעה",
 
-    "מִפְתָאח":"מפתח",
+    "אַלְמִפְתָאח":"המפתח",
     "עָארֶפ":"יודע (לגבר)",
     "תִגִ'י":"אתה בא (לגבר)",
     "בֵּיתִי":"הבית שלי",
@@ -711,7 +730,7 @@
     "מוֹזֶה":"בננה",
     "הַאד":"זה / ההוא",
     "הַהַה":"האה האה (צחוק)",
-    "עִנִּי":"יש לי",
+    "עִנְדִּי":"יש לי",
     "צִיּוּף":"אורחים",
 
     "אַלְאַחְ'צַר":"הירוק",
@@ -746,7 +765,6 @@
     "בַּלְחַמָּאם":"בשירותים / במקלחת",
     "אָ'אל":"הוא אמר",
     "רֵיתּ":"הלוואי / מקווה",
-    "מָא":"לא",
     "יְחַ'לֶּצְלִי":"יגמור לי",
     "אַלְמַיֶּה":"המים",
 
@@ -756,7 +774,6 @@
     "זַלַמֶה":"אחי / בחור",
     "טַלַּעְתּ":"הוצאת",
     "קוֹלָה":"קולה",
-    "מִנֶּ":"מ־",
     "אַלְמָכִּינֶה":"המכונה",
 
     "חְצָאן":"סוס",
@@ -804,7 +821,7 @@
       turns:[
         {target:["אִנְתָּה","בִּלְבֵּית","הַלַּא'"], translation:"אתה בבית עכשיו? (הודעה בוואטסאפ)"},
         {target:["אַיְוַה","אַנָא","בִּלְבֵּית"], translation:"כן, אני בבית"},
-        {target:["בְּתַעְרַף","וַיְן","מִפְתָאח"], translation:"אתה יודע איפה המפתח?"},
+        {target:["בְּתַעְרַף","וַיְן","אַלְמִפְתָאח"], translation:"אתה יודע איפה המפתח?"},
         {target:["לַא","מִש","עָארֶפ"], translation:"לא, לא יודע"},
         {target:["מֻמְכִּן","תִגִ'י","עַל","בֵּיתִי"], translation:"אפשר שתבוא אליי הביתה?"},
         {target:["טַבְּעַן","רַח","אִגִ'י","בַּעְד","שְׁוַי"], translation:"בטח, אני אבוא בעוד קצת"},
@@ -848,13 +865,13 @@
       turns:[
         {target:["אַנָא","רַאיֶח","עַל","אַלְסוּא'"], translation:"אני הולך לשוק"},
         {target:["גִ'יבּ","לִי","אַרְבַּעְטַעְש","תֻפַּאחָה"], translation:"תביא לי 14 תפוחים"},
-        {target:["תַמָאם","שִי","כַּמָאן"], translation:"בסדר, עוד משהו?"},
+        {target:["תַמָאם","אִשִׁי","כַּמָאן"], translation:"בסדר, עוד משהו?"},
         {target:["אַיְוַה","גִ'יבּ","כַּמָאן","מִיֶּה","גְ'רָאם","גְ'בְּנֶה"], translation:"כן, תביא גם 100 גרם גבינה"},
         {target:["וַ","תְלָאתֶה","כִּילוֹ","בַּנְדוּרָה"], translation:"וגם 3 קילו עגבניות"},
         {target:["בַּס","הֵיכּ"], translation:"רק זה?"},
         {target:["לַא","וַ","עֶשְׂרִין","מוֹזֶה","כַּמָאן"], translation:"לא, וגם 20 בננות"},
         {target:["טַיֶּב","הַאד","כְּתִיר"], translation:"טוב, זה הרבה!"},
-        {target:["הַהַה","בַּס","עִנִּי","צִיּוּף","הַלַּא'"], translation:"האה האה, אבל יש לי אורחים היום"},
+        {target:["הַהַה","בַּס","עִנְדִּי","צִיּוּף","הַלַּא'"], translation:"האה האה, אבל יש לי אורחים עכשיו"},
         {target:["תַמָאם","רַאיֶח","הַלַּא'"], translation:"בסדר, אני הולך עכשיו"},
         {target:["יִסְלַמוּ","כְּתִיר"], translation:"תודה רבה"}
       ]
@@ -910,7 +927,7 @@
       name:"דיאלוג 9 · חיות",
       turns:[
         {target:["עִנְדַכ","אִ'טָּה"], translation:"יש לך חתולה?"},
-        {target:["לַא","עִנִּי","כֶּלְבּ"], translation:"לא, יש לי כלב"},
+        {target:["לַא","עִנְדִּי","כֶּלְבּ"], translation:"לא, יש לי כלב"},
         {target:["שׁוּ","אִסְמֹה"], translation:"מה השם שלו?"},
         {target:["אִסְמֹה","סֻלְטָאן"], translation:"השם שלו סולטאן"},
         {target:["חִלוּ","כְּתִיר","בִּיֶּלְעַב","מַעַכ"], translation:"יפה מאוד, הוא משחק איתך?"},
@@ -929,7 +946,7 @@
         {target:["מַצְחִכֶּה"], translation:"מצחיקה?"},
         {target:["טַבְּעַן"], translation:"ברור!"},
         {target:["יָא","בַּאבָּא","פִי","צַרְצוּר","בַּלְחַמָּאם"], translation:"אבא, יש ג'וק במקלחת!"},
-        {target:["בַּאבָּא","אָ'אל","יָא","רֵיתּ","מָא","יְחַ'לֶּצְלִי","אַלְמַיֶּה"], translation:"אבא אמר: מקווה שלא יגמור לי את המים!"},
+        {target:["בַּאבָּא","אָ'אל","יָא","רֵיתּ","מַא","יְחַ'לֶּצְלִי","אַלְמַיֶּה"], translation:"אבא אמר: מקווה שלא יגמור לי את המים!"},
         {target:["הַהַה","מַצְחִכֶּה","כְּתִיר"], translation:"האה האה, מצחיק מאוד!"},
         {target:["יִסְלַמוּ"], translation:"תודה!"},
         {target:["מַסְלַמֶה"], translation:"להתראות"}
@@ -944,7 +961,7 @@
         {target:["בִּדַּכ","תִסְמַע","נֻכְּתֶה","תָאנִי"], translation:"רוצה לשמוע עוד בדיחה?"},
         {target:["אַיְוַה","טַבְּעַן"], translation:"כן, ברור!"},
         {target:["וָאחֶד","אָ'אל","תַעְבַּנִי","הַאלְגִּיהָאז"], translation:"אחד אמר: עייף אותי המכשיר הזה!"},
-        {target:["יָא","זַלַמֶה","בַּס","טַלַּעְתּ","קוֹלָה","מִנֶּ","אַלְמָכִּינֶה"], translation:"אחי, רק הוצאת קולה מהמכונה!"},
+        {target:["יָא","זַלַמֶה","בַּס","טַלַּעְתּ","קוֹלָה","מִן","אַלְמָכִּינֶה"], translation:"אחי, רק הוצאת קולה מהמכונה!"},
         {target:["הַהַה","חִלְוֶה","כְּתִיר"], translation:"האה האה, חמודה מאוד!"},
         {target:["יִסְלַמוּ"], translation:"תודה"},
         {target:["מַסְלַמֶה"], translation:"להתראות"}
@@ -958,7 +975,7 @@
         {target:["שׁוּ"], translation:"מה?"},
         {target:["בִּדַּכ","תִסְמַע","אַחִ'יר","נֻכְּתֶה"], translation:"רוצה לשמוע בדיחה אחרונה?"},
         {target:["אַיְוַה","טַבְּעַן"], translation:"כן, ברור!"},
-        {target:["חְצָאן","אָ'אל","גִ'יעָאן","אַ'אדֶר","אָכֻּל","חְצָאן"], translation:"סוס אמר: אני כל כך רעב שיכול לאכול סוס שלם!"},
+        {target:["חְצָאן","אָ'אל","אַנָא","גִ'יעָאן","כְּתִיר","אַ'אדֶר","אָכֻּל","חְצָאן"], translation:"סוס אמר: אני כל כך רעב, יכול לאכול סוס!"},
         {target:["אַלְחְצָאן","אַלְתָּאנִי","אָ'אל","מִיָאו"], translation:"הסוס השני אמר: מיאו!"},
         {target:["הַהַה","מַצְחִכֶּה","כְּתִיר"], translation:"האה האה, מצחיק מאוד!"},
         {target:["יִסְלַמוּ","כְּתִיר"], translation:"תודה רבה"},
@@ -1060,6 +1077,10 @@
   var hintBox = document.getElementById("hintBox");
   var hintClose = document.getElementById("hintClose");
   var hintList = document.getElementById("hintList");
+  var shareBtn = document.getElementById("shareBtn");
+  var installBtn = document.getElementById("installBtn");
+  var installOverlay = document.getElementById("installOverlay");
+  var installClose = document.getElementById("installClose");
 
   var toastTimer = null;
   function showToast(msg){
@@ -1419,6 +1440,58 @@
   hintClose.addEventListener("click", closeHint);
   hintOverlay.addEventListener("click", function(e){
     if(e.target === hintOverlay) closeHint();
+  });
+
+  // ---------- Share ----------
+  shareBtn.addEventListener("click", function(){
+    var shareData = {
+      title: "שיחון ערבית מדוברת",
+      text: "לומדים ערבית מדוברת בתעתיק עברי — בואו לתרגל איתי!",
+      url: location.href
+    };
+    if(navigator.share){
+      navigator.share(shareData).catch(function(){ /* user cancelled, ignore */ });
+    } else {
+      copyText(location.href);
+      showToast("הקישור הועתק ✓");
+    }
+  });
+
+  // ---------- Install ----------
+  var deferredInstallPrompt = null;
+  var isStandalone = (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) ||
+    window.navigator.standalone === true;
+  var isIOS = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+
+  if(!isStandalone){
+    if(isIOS){
+      // iOS Safari has no beforeinstallprompt event; show the button with manual instructions
+      installBtn.hidden = false;
+    }
+    window.addEventListener("beforeinstallprompt", function(e){
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      installBtn.hidden = false;
+    });
+    window.addEventListener("appinstalled", function(){
+      installBtn.hidden = true;
+      deferredInstallPrompt = null;
+    });
+  }
+
+  installBtn.addEventListener("click", function(){
+    if(deferredInstallPrompt){
+      deferredInstallPrompt.prompt();
+      deferredInstallPrompt.userChoice.then(function(){
+        deferredInstallPrompt = null;
+      });
+    } else {
+      installOverlay.hidden = false;
+    }
+  });
+  installClose.addEventListener("click", function(){ installOverlay.hidden = true; });
+  installOverlay.addEventListener("click", function(e){
+    if(e.target === installOverlay) installOverlay.hidden = true;
   });
 
   // ---------- Boot ----------
