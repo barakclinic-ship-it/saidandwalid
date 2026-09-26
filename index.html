@@ -1,7 +1,7 @@
 <title>שיחון ערבית</title>
 <meta name="description" content="לומדים ערבית מדוברת בתעתיק עברי — בונים משפטים מהמאגר ושולחים בוואטסאפ">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#16a34a">
+<meta name="theme-color" content="#14b88a">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -10,61 +10,61 @@
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#ffffff;
+    --bg:#f4f8fb;
     --surface:#ffffff;
-    --surface-alt:#f6f5f1;
-    --border:#dfddd5;
-    --border-strong:#c9c6bb;
-    --text:#15140f;
-    --text-muted:#726f63;
-    --accent:#16a34a;
-    --accent-bg:#e8f8ee;
-    --accent-strong:#0e7a37;
+    --surface-alt:#eaf1f7;
+    --border:#dbe6ee;
+    --border-strong:#bfd0dc;
+    --text:#16233a;
+    --text-muted:#66788d;
+    --accent:#14b88a;
+    --accent-bg:#e2f7ef;
+    --accent-strong:#0d8d68;
     --danger:#c23b3b;
     --danger-bg:#fbe9e9;
-    --blue:#2563eb;
+    --blue:#2f6fed;
     --yellow:#d69e0a;
-    --shadow: 0 1px 2px rgba(20,20,10,.06);
-    font-family: 'Heebo', system-ui, sans-serif;
+    --shadow: 0 2px 12px rgba(22,35,58,.08);
+    font-family: 'Rubik', system-ui, sans-serif;
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#0a0a08;
-      --surface:#141310;
-      --surface-alt:#1c1b17;
-      --border:#34322a;
-      --border-strong:#4a473c;
-      --text:#f4f3ee;
-      --text-muted:#9c988c;
-      --accent:#22c55e;
-      --accent-bg:rgba(34,197,94,.14);
-      --accent-strong:#4ade80;
+      --bg:#0b1420;
+      --surface:#101c2c;
+      --surface-alt:#182739;
+      --border:#25384c;
+      --border-strong:#37506a;
+      --text:#eef4f9;
+      --text-muted:#8ea3b8;
+      --accent:#2dd4a7;
+      --accent-bg:rgba(45,212,167,.14);
+      --accent-strong:#5eead4;
       --danger:#e56868;
       --danger-bg:rgba(226,80,80,.14);
-      --blue:#5b93f5;
+      --blue:#6a97f7;
       --yellow:#e8b13a;
-      --shadow: 0 1px 2px rgba(0,0,0,.4);
+      --shadow: 0 2px 12px rgba(0,0,0,.4);
     }
   }
   :root[data-theme="dark"]{
-    --bg:#0a0a08;
-    --surface:#141310;
-    --surface-alt:#1c1b17;
-    --border:#34322a;
-    --border-strong:#4a473c;
-    --text:#f4f3ee;
-    --text-muted:#9c988c;
-    --accent:#22c55e;
-    --accent-bg:rgba(34,197,94,.14);
-    --accent-strong:#4ade80;
+    --bg:#0b1420;
+    --surface:#101c2c;
+    --surface-alt:#182739;
+    --border:#25384c;
+    --border-strong:#37506a;
+    --text:#eef4f9;
+    --text-muted:#8ea3b8;
+    --accent:#2dd4a7;
+    --accent-bg:rgba(45,212,167,.14);
+    --accent-strong:#5eead4;
     --danger:#e56868;
     --danger-bg:rgba(226,80,80,.14);
-    --blue:#5b93f5;
+    --blue:#6a97f7;
     --yellow:#e8b13a;
-    --shadow: 0 1px 2px rgba(0,0,0,.4);
+    --shadow: 0 2px 12px rgba(0,0,0,.4);
   }
   *{box-sizing:border-box;}
   [hidden]{ display:none !important; }
@@ -122,7 +122,7 @@
     border:1.5px solid var(--border);
     background:var(--surface-alt);
     color:var(--text-muted);
-    border-radius:11px;
+    border-radius:16px;
     padding:9px 15px;
     font-family:inherit;
     font-size:.92rem;
@@ -140,7 +140,7 @@
     flex:0 0 auto;
     width:44px;
     height:44px;
-    border-radius:12px;
+    border-radius:14px;
     border:none;
     background:var(--text);
     color:var(--bg);
@@ -190,7 +190,7 @@
     flex:1;
     background:var(--surface-alt);
     border:1px solid var(--border);
-    border-radius:14px;
+    border-radius:16px;
     padding:8px 12px;
   }
   .bubble-text{
@@ -205,7 +205,7 @@
   }
   .challenge{
     border:1.5px solid var(--border-strong);
-    border-radius:18px;
+    border-radius:22px;
     padding:18px;
     background:var(--surface);
     box-shadow:var(--shadow);
@@ -224,7 +224,7 @@
   .slot{
     min-height:64px;
     border:2px dashed var(--border-strong);
-    border-radius:14px;
+    border-radius:16px;
     padding:10px;
     display:flex;
     flex-wrap:wrap;
@@ -309,7 +309,7 @@
     font-size:1.18rem;
     font-weight:700;
     padding:11px 17px;
-    border-radius:12px;
+    border-radius:14px;
     border:1.5px solid var(--border-strong);
     background:var(--surface);
     color:var(--text);
@@ -477,7 +477,7 @@
   .modal-box{
     background:var(--surface);
     border:1.5px solid var(--border-strong);
-    border-radius:16px;
+    border-radius:20px;
     padding:16px;
     width:100%;
     max-width:460px;
@@ -520,12 +520,25 @@
     text-align:center;
   }
 </style>
+<script>
+  (function(){
+    "use strict";
+    var saved = null;
+    try { saved = localStorage.getItem("shihon-theme"); } catch(e){}
+    var theme = (saved === "dark" || saved === "light") ? saved : "light";
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
 
 <div id="app" dir="rtl" lang="he">
   <header>
     <div class="title-row">
       <h1>שיחון ערבית מדוברת</h1>
       <div class="header-actions">
+        <button class="lamp-btn" id="themeBtn" type="button" aria-label="החלפת מצב תאורה" title="בהיר / כהה">
+          <svg id="themeIconSun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/></svg>
+          <svg id="themeIconMoon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" hidden><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
+        </button>
         <button class="lamp-btn" id="shareBtn" type="button" aria-label="שיתוף האפליקציה" title="שיתוף">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.7 15.7 6.3M8.3 13.3l7.4 4.4"/></svg>
         </button>
@@ -543,7 +556,14 @@
     <div class="unit-tabs" id="unitTabs"></div>
   </header>
   <main id="main"></main>
-  <footer>לחיצה ארוכה על מילה מציגה את הפירוש בעברית</footer>
+  <footer>
+    לחיצה ארוכה על מילה מציגה את הפירוש בעברית
+    <div style="margin-top:6px;">
+      שיטת התעתיק (ק / ח׳ / ע׳ / ג׳ / צ׳) מבוססת על
+      <a href="https://milon.madrasafree.com/guide.asp" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;">מדריך התעתיק וההגייה של מדרסה</a>
+      — לא מאומתת מול מילון יוחנן אליחי עצמו, שאין לו מקור דיגיטלי נגיש
+    </div>
+  </footer>
 </div>
 <div class="toast" id="toast"></div>
 <div class="tooltip" id="tooltip"></div>
@@ -597,7 +617,8 @@
     "יַאלְלָה":"קדימה / יאללה",
     "בְּשׁוּפַכ":"אראה אותך (לגבר)",
     "בַּעְדֵין":"אחר כך",
-    "מַסְלַמֶה":"שלום, לך בשלום (פרידה)",
+    "מַע":"עם (חלק מביטוי הפרידה מע אסלאמה)",
+    "אִסַּלַאמֵה":"השלום (חלק מביטוי הפרידה מע אסלאמה)",
     "אַיְוַה":"כן",
     "כְּתִיר":"מאוד / הרבה",
     "בִּדַּכ":"אתה רוצה (לגבר)",
@@ -609,7 +630,7 @@
     "מַנְסַף":"מנסף (מנה עם אורז ובשר ורוטב יוגורט)",
     "טַיֶּב":"טוב / בסדר",
     "נְרוּח":"בוא נלך",
-    "סַחְתֵין":"לתיאבון! (איחול בזמן אכילה)",
+    "צַחְתֵין":"לתיאבון! (איחול בזמן אכילה)",
     "אַללָה":"אלוהים",
     "יְסַלֶּמַכ":"ישמור עליך (חלק מביטוי תודה)",
     "הַלַּק":"עכשיו",
@@ -770,7 +791,7 @@
     "אַלְמָכִּינֶה":"המכונה",
 
     "חְצָאן":"סוס",
-    "גִ'יעָאן":"רעב",
+    "גֻ'עָאן":"רעב",
     "קַאדֶר":"יכול",
     "אָכֻּל":"לאכול",
     "אַלְחְצָאן":"הסוס",
@@ -805,7 +826,7 @@
         {target:["מִן","וַיְן","אִנְתָּה"], translation:"מאיפה אתה?"},
         {target:["אַנָא","מִן","הוֹן"], translation:"אני מכאן"},
         {target:["יַאלְלָה","בְּשׁוּפַכ","יָא","וָלִיד","בַּעְדֵין"], translation:"יאללה, נתראה אחר כך, וואליד (עכשיו כשכבר מכירים בשם אפשר להשתמש ב\"יא\" + שם)"},
-        {target:["מַסְלַמֶה","יָא","סָעִיד"], translation:"להתראות, סעיד"}]
+        {target:["מַע","אִסַּלַאמֵה","יָא","סָעִיד"], translation:"להתראות, סעיד (מילולית: עם השלום)"}]
     },
     {
       id:2,
@@ -869,7 +890,7 @@
         {target:["חִלוּ","כְּתִיר","בִּיֶּלְעַב","מַעַכ"], translation:"יפה מאוד, הוא משחק איתך?"},
         {target:["אַיְוַה","דַאיְמַן"], translation:"כן, תמיד"},
         {target:["יַאלְלָה","בְּשׁוּפַכ","בַּעְדֵין"], translation:"יאללה, נתראה אחר כך"},
-        {target:["מַסְלַמֶה"], translation:"להתראות"}]
+        {target:["מַע","אִסַּלַאמֵה"], translation:"להתראות (מילולית: עם השלום)"}]
     },
     {
       id:7,
@@ -905,7 +926,7 @@
         {target:["אַיְוַה","טַבְּעַן"], translation:"כן, ברור!"},
         {target:["שׁוּ","בִּדַּכ","תָאכֹל"], translation:"מה אתה רוצה לאכול?"},
         {target:["בִּדִּי","מַנְסַף"], translation:"אני רוצה מנסף!"},
-        {target:["טַיֶּב","סַחְתֵין"], translation:"בסדר, לתיאבון!"}
+        {target:["טַיֶּב","צַחְתֵין"], translation:"בסדר, לתיאבון!"}
       ]
     },
     {
@@ -1001,7 +1022,7 @@
         {target:["בַּאבָּא","קָאל","יָא","רֵיתּ","מַא","יְחַ'לֶּצְלִי","אַלְמַיֶּה"], translation:"אבא אמר: מקווה שלא יגמור לי את המים!"},
         {target:["הַהַה","מַצְ'חִכֶּה","כְּתִיר"], translation:"האה האה, מצחיק מאוד!"},
         {target:["יִסְלַמוּ"], translation:"תודה!"},
-        {target:["מַסְלַמֶה"], translation:"להתראות"}]
+        {target:["מַע","אִסַּלַאמֵה"], translation:"להתראות (מילולית: עם השלום)"}]
     },
     {
       id:17,
@@ -1015,7 +1036,7 @@
         {target:["יָא","זַלַמֶה","בַּס","טַלַּעְתּ","קוֹלָה","מִן","אַלְמָכִּינֶה"], translation:"אחי, רק הוצאת קולה מהמכונה!"},
         {target:["הַהַה","חִלְוֶה","כְּתִיר"], translation:"האה האה, חמודה מאוד!"},
         {target:["יִסְלַמוּ"], translation:"תודה"},
-        {target:["מַסְלַמֶה"], translation:"להתראות"}]
+        {target:["מַע","אִסַּלַאמֵה"], translation:"להתראות (מילולית: עם השלום)"}]
     },
     {
       id:18,
@@ -1025,11 +1046,11 @@
         {target:["שׁוּ"], translation:"מה?"},
         {target:["בִּדַּכ","תִסְמַע","אַחִ'יר","נֻכְּתֶה"], translation:"רוצה לשמוע בדיחה אחרונה?"},
         {target:["אַיְוַה","טַבְּעַן"], translation:"כן, ברור!"},
-        {target:["חְצָאן","קָאל","אַנָא","גִ'יעָאן","כְּתִיר","קַאדֶר","אָכֻּל","חְצָאן"], translation:"סוס אמר: אני כל כך רעב, יכול לאכול סוס!"},
+        {target:["חְצָאן","קָאל","אַנָא","גֻ'עָאן","כְּתִיר","קַאדֶר","אָכֻּל","חְצָאן"], translation:"סוס אמר: אני כל כך רעב, יכול לאכול סוס!"},
         {target:["אַלְחְצָאן","אַלְתָּאנִי","קָאל","מִיָאו"], translation:"הסוס השני אמר: מיאו!"},
         {target:["הַהַה","מַצְ'חִכֶּה","כְּתִיר"], translation:"האה האה, מצחיק מאוד!"},
         {target:["יִסְלַמוּ","כְּתִיר"], translation:"תודה רבה"},
-        {target:["יַאלְלָה","מַסְלַמֶה"], translation:"יאללה, להתראות"}]
+        {target:["יַאלְלָה","מַע","אִסַּלַאמֵה"], translation:"יאללה, להתראות (מילולית: עם השלום)"}]
     }
 
   ];
@@ -1128,6 +1149,9 @@
   var hintClose = document.getElementById("hintClose");
   var hintList = document.getElementById("hintList");
   var shareBtn = document.getElementById("shareBtn");
+  var themeBtn = document.getElementById("themeBtn");
+  var themeIconSun = document.getElementById("themeIconSun");
+  var themeIconMoon = document.getElementById("themeIconMoon");
   var installBtn = document.getElementById("installBtn");
   var installOverlay = document.getElementById("installOverlay");
   var installClose = document.getElementById("installClose");
@@ -1304,9 +1328,15 @@
       unitTabsEl.appendChild(btn);
     });
     var activeTab = unitTabsEl.querySelector(".unit-tab.active");
-    if(activeTab && activeTab.scrollIntoView){
-      activeTab.scrollIntoView({behavior:"auto", inline:"center", block:"nearest"});
+    if(activeTab){
+      // scroll only the tabs strip itself — never let this bubble up and
+      // shift the whole #app (which has overflow-x:hidden and would move too)
+      var target = activeTab.offsetLeft - (unitTabsEl.clientWidth - activeTab.offsetWidth) / 2;
+      var maxScroll = unitTabsEl.scrollWidth - unitTabsEl.clientWidth;
+      unitTabsEl.scrollLeft = Math.max(0, Math.min(target, maxScroll));
     }
+    var appEl = document.getElementById("app");
+    if(appEl) appEl.scrollLeft = 0;
   }
 
   function renderHintList(){
@@ -1488,6 +1518,20 @@
   resetBtn.addEventListener("click", function(){
     clearBuild();
     render();
+  });
+
+  function syncThemeIcon(){
+    var isDark = document.documentElement.getAttribute("data-theme") === "dark";
+    themeIconSun.hidden = isDark;
+    themeIconMoon.hidden = !isDark;
+  }
+  syncThemeIcon();
+  themeBtn.addEventListener("click", function(){
+    var isDark = document.documentElement.getAttribute("data-theme") === "dark";
+    var next = isDark ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    try { localStorage.setItem("shihon-theme", next); } catch(e){}
+    syncThemeIcon();
   });
 
   hintBtn.addEventListener("click", openHint);
